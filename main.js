@@ -1,11 +1,11 @@
-const gameManager = (() => {
-  const gameBoard = [
-    [" ", " ", " "],
-    [" ", " ", " "],
-    [" ", " ", " "],
-  ];
-  const inGameBoard = Array.from(document.querySelectorAll(".game-block"));
+const gameBoard = [
+  [" ", " ", " "],
+  [" ", " ", " "],
+  [" ", " ", " "],
+];
+const inGameBoard = Array.from(document.querySelectorAll(".game-block"));
 
+const gameManager = (() => {
   const renderBoard = () => {
     let counter = 0;
 
@@ -16,15 +16,19 @@ const gameManager = (() => {
     }
   };
 
+  return { renderBoard };
+})();
+
+const playerFactory = () => {
   const insertBlock = (string, row, column) => {
     gameBoard[row][column] = string;
-    console.log(gameBoard);
 
-    renderBoard();
+    gameManager.renderBoard();
   };
 
   return { insertBlock };
-})();
+};
 
-gameManager.insertBlock("O", 0, 0);
-gameManager.insertBlock("X", 1, 0);
+const playerOne = playerFactory();
+
+playerOne.insertBlock("O", 0, 0);
