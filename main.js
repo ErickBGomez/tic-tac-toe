@@ -3,7 +3,7 @@ const gameBoard = [
   ["", "", ""],
   ["", "", ""],
 ];
-const inGameBoard = Array.from(document.querySelectorAll(".game-block"));
+const inGameBoard = document.querySelectorAll(".game-block");
 
 const gameManager = (() => {
   const renderBoard = () => {
