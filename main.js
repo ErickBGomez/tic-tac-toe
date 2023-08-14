@@ -34,10 +34,11 @@ const playerFactory = (symbolString) => {
   return { insert };
 };
 
-const playerOne = playerFactory("O");
-const playerTwo = playerFactory("X");
+const playerOne = playerFactory("X");
+const playerTwo = playerFactory("O");
 
 playerOne.insert(0, 0);
-playerTwo.insert(1, 0);
-playerTwo.insert(0, 0);
+playerTwo.insert(0, 1);
 playerOne.insert(2, 0);
+playerTwo.insert(0, 2);
+playerOne.insert(1, 0);
