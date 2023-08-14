@@ -16,6 +16,8 @@ const gameManager = (() => {
     }
   };
 
+  const checkBoard = () => {};
+
   return { renderBoard };
 })();
 
@@ -37,8 +39,22 @@ const playerFactory = (symbolString) => {
 const playerOne = playerFactory("X");
 const playerTwo = playerFactory("O");
 
-playerOne.insert(0, 0);
-playerTwo.insert(0, 1);
-playerOne.insert(2, 0);
-playerTwo.insert(0, 2);
-playerOne.insert(1, 0);
+// Row win
+// playerOne.insert(1, 0);
+// playerOne.insert(1, 1);
+// playerOne.insert(1, 2);
+
+// Column win
+// playerOne.insert(0, 2);
+// playerOne.insert(1, 2);
+// playerOne.insert(2, 2);
+
+// Diagonal win 1
+// playerOne.insert(0, 0);
+// playerOne.insert(1, 1);
+// playerOne.insert(2, 2);
+
+// Diagonal win 2
+// playerOne.insert(0, 2);
+// playerOne.insert(1, 1);
+// playerOne.insert(2, 0);
