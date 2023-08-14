@@ -1,7 +1,7 @@
 const gameBoard = [
-  [" ", " ", " "],
-  [" ", " ", " "],
-  [" ", " ", " "],
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
 ];
 const inGameBoard = Array.from(document.querySelectorAll(".game-block"));
 
@@ -22,17 +22,22 @@ const gameManager = (() => {
 const playerFactory = (symbolString) => {
   const symbol = symbolString;
 
-  const insertBlock = (row, column) => {
+  const insert = (row, column) => {
+    // Prevent overwriting symbols
+    if (!!gameBoard[row][column]) return;
+
     gameBoard[row][column] = symbol;
 
     gameManager.renderBoard();
   };
 
-  return { insertBlock };
+  return { insert };
 };
 
 const playerOne = playerFactory("O");
 const playerTwo = playerFactory("X");
 
-playerOne.insertBlock(0, 0);
-playerTwo.insertBlock(1, 0);
+playerOne.insert(0, 0);
+playerTwo.insert(1, 0);
+playerTwo.insert(0, 0);
+playerOne.insert(2, 0);
