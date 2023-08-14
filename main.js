@@ -19,9 +19,11 @@ const gameManager = (() => {
   return { renderBoard };
 })();
 
-const playerFactory = () => {
-  const insertBlock = (string, row, column) => {
-    gameBoard[row][column] = string;
+const playerFactory = (symbolString) => {
+  const symbol = symbolString;
+
+  const insertBlock = (row, column) => {
+    gameBoard[row][column] = symbol;
 
     gameManager.renderBoard();
   };
@@ -29,6 +31,8 @@ const playerFactory = () => {
   return { insertBlock };
 };
 
-const playerOne = playerFactory();
+const playerOne = playerFactory("O");
+const playerTwo = playerFactory("X");
 
-playerOne.insertBlock("O", 0, 0);
+playerOne.insertBlock(0, 0);
+playerTwo.insertBlock(1, 0);
