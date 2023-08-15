@@ -9,7 +9,7 @@ body {
   grid-template-rows: repeat(3, 50px);
 }
 
-.game-board > .game-block {
+.game-board > .board-cell {
   border: 1px solid black;
   display: flex;
   justify-content: center;
