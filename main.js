@@ -11,29 +11,29 @@ const gameManager = (() => {
     gameStateText.textContent = `${currentPlayer.getName()}'s turn!`;
   };
 
+  const startGame = (players) => {
+    boardCells.forEach((cell) =>
+      cell.addEventListener("click", clickHandler, { once: true })
+    );
+
+    displayTurn(players[+playerTwoTurn]);
+  };
+
+  const clickHandler = (e) => {
+    const currentCell = e.target;
+
+    players[+playerTwoTurn].insert(currentCell.dataset.cellindex);
+    swapTurn();
+    displayTurn(players[+playerTwoTurn]);
+  };
+
   const renderBoard = () => {
     gameBoard.forEach((cell, index) => {
       boardCells[index].textContent = cell;
     });
   };
 
-  const startGame = (players) => {
-    boardCells.forEach((cell) =>
-      cell.addEventListener(
-        "click",
-        () => {
-          players[+playerTwoTurn].insert(cell.dataset.cellindex);
-          swapTurn();
-          displayTurn(players[+playerTwoTurn]);
-        },
-        { once: true }
-      )
-    );
-
-    displayTurn(players[+playerTwoTurn]);
-  };
-
-  return { renderBoard, startGame };
+  return { startGame, renderBoard };
 })();
 
 const playerFactory = (symbolString, playerName = "Player") => {
