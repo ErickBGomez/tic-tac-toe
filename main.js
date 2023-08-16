@@ -2,16 +2,26 @@ const gameBoard = ["", "", "", "", "", "", "", "", ""];
 const boardCells = document.querySelectorAll(".board-cell");
 const gameStateText = document.querySelector(".game-state");
 
+const gameDOM = (() => {
+  const displayTurn = (currentPlayer) => {
+    gameStateText.textContent = `${currentPlayer.getName()}'s turn!`;
+  };
+
+  const renderBoard = () => {
+    gameBoard.forEach((cell, index) => {
+      boardCells[index].textContent = cell;
+    });
+  };
+
+  return { displayTurn, renderBoard };
+})();
+
 const gameManager = (() => {
   let playerTwoTurn = false;
 
   const swapTurn = () => (playerTwoTurn = !playerTwoTurn);
 
-  const displayTurn = (currentPlayer) => {
-    gameStateText.textContent = `${currentPlayer.getName()}'s turn!`;
-  };
-
-  const winCheck = () => {
+  const checkWin = (currentPlayerSymbol) => {
     const winningConditions = [
       [0, 1, 2],
       [3, 4, 5],
@@ -22,31 +32,40 @@ const gameManager = (() => {
       [0, 4, 8],
       [2, 4, 6],
     ];
+
+    return winningConditions.some((combination) =>
+      combination.every(
+        (index) => boardCells[index].innerText === currentPlayerSymbol
+      )
+    );
   };
 
   const startGame = (players) => {
     boardCells.forEach((cell) =>
-      cell.addEventListener("click", clickHandler, { once: true })
+      cell.addEventListener("click", (e) => clickHandler(e.target, players), {
+        once: true,
+      })
     );
 
-    displayTurn(players[+playerTwoTurn]);
+    gameDOM.displayTurn(players[+playerTwoTurn]);
   };
 
-  const clickHandler = (e) => {
-    const currentCell = e.target;
+  const clickHandler = (currentCell, players) => {
+    const currentPlayer = players[+playerTwoTurn];
 
-    players[+playerTwoTurn].insert(currentCell.dataset.cellindex);
+    // Insert symbol
+    currentPlayer.insert(currentCell.dataset.cellindex);
+    // Check draw
+    // else: Check win
+    if (checkWin(currentPlayer.getSymbol())) {
+      console.log("winner");
+    }
+    // else: Swap turn
     swapTurn();
-    displayTurn(players[+playerTwoTurn]);
+    gameDOM.displayTurn(currentPlayer);
   };
 
-  const renderBoard = () => {
-    gameBoard.forEach((cell, index) => {
-      boardCells[index].textContent = cell;
-    });
-  };
-
-  return { startGame, renderBoard };
+  return { startGame };
 })();
 
 const playerFactory = (symbolString, playerName = "Player") => {
@@ -57,12 +76,14 @@ const playerFactory = (symbolString, playerName = "Player") => {
   const insert = (cellIndex) => {
     gameBoard[cellIndex] = symbol;
 
-    gameManager.renderBoard();
+    gameDOM.renderBoard();
   };
 
   const getName = () => name;
 
-  return { insert, getName };
+  const getSymbol = () => symbol;
+
+  return { insert, getName, getSymbol };
 };
 
 const playerOne = playerFactory("X", "Player One");
