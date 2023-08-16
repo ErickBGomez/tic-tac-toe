@@ -7,19 +7,42 @@ const gameDOM = (() => {
     gameStateText.textContent = `${currentPlayer.getName()}'s turn!`;
   };
 
+  const displayWinner = (message) => {
+    gameStateText.textContent = message;
+  };
+
   const renderBoard = () => {
     gameBoard.forEach((cell, index) => {
       boardCells[index].textContent = cell;
     });
   };
 
-  return { displayTurn, renderBoard };
+  return { displayTurn, displayWinner, renderBoard };
 })();
 
 const gameManager = (() => {
   let playerTwoTurn = false;
 
   const swapTurn = () => (playerTwoTurn = !playerTwoTurn);
+
+  const startGame = (players) => {
+    boardCells.forEach((cell) =>
+      cell.addEventListener("click", (e) => clickHandler(e.target, players), {
+        once: true,
+      })
+    );
+
+    gameDOM.displayTurn(players[+playerTwoTurn]);
+  };
+
+  const finishGame = () => {
+    // Remove all events
+    boardCells.forEach((cell) => cell.replaceWith(cell.cloneNode(true)));
+  };
+
+  const checkDraw = () => {
+    return Array.from(boardCells).every((cell) => cell.textContent !== "");
+  };
 
   const checkWin = (currentPlayerSymbol) => {
     const winningConditions = [
@@ -40,25 +63,20 @@ const gameManager = (() => {
     );
   };
 
-  const startGame = (players) => {
-    boardCells.forEach((cell) =>
-      cell.addEventListener("click", (e) => clickHandler(e.target, players), {
-        once: true,
-      })
-    );
-
-    gameDOM.displayTurn(players[+playerTwoTurn]);
-  };
-
   const clickHandler = (currentCell, players) => {
     const currentPlayer = players[+playerTwoTurn];
 
     // Insert symbol
     currentPlayer.insert(currentCell.dataset.cellindex);
     // Check draw
+    if (checkDraw()) {
+      gameDOM.displayWinner("Draw!");
+    }
     // else: Check win
-    if (checkWin(currentPlayer.getSymbol())) {
-      console.log(`${currentPlayer.getName()} is the winner!`);
+    else if (checkWin(currentPlayer.getSymbol())) {
+      finishGame();
+
+      gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
     }
     // else: Swap turn
     swapTurn();
