@@ -21,9 +21,25 @@ const gameDOM = (() => {
 })();
 
 const gameManager = (() => {
+  let twoPlayersFlag;
   let turnFlag = false;
 
   const swapTurn = () => (turnFlag = !turnFlag);
+
+  const declarePlayers = () => {
+    const players = [];
+
+    // Provisional dialogs
+    twoPlayersFlag = confirm("Ok = Vs. Player\nCancel = Vs. Computer");
+
+    players[0] = playerFactory("X", "Player One");
+
+    players[1] = twoPlayersFlag
+      ? playerFactory("O", "Player Two")
+      : playerFactory("O", "Computer");
+
+    return players;
+  };
 
   const startGame = (players) => {
     boardCells.forEach((cell) =>
@@ -82,7 +98,7 @@ const gameManager = (() => {
     }
   };
 
-  return { startGame };
+  return { declarePlayers, startGame };
 })();
 
 const playerFactory = (symbolString, playerName = "Player") => {
@@ -103,7 +119,4 @@ const playerFactory = (symbolString, playerName = "Player") => {
   return { insert, getName, getSymbol };
 };
 
-const playerOne = playerFactory("X", "Player One");
-const playerTwo = playerFactory("O", "Player Two");
-
-gameManager.startGame([playerOne, playerTwo]);
+gameManager.startGame(gameManager.declarePlayers());
