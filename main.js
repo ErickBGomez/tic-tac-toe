@@ -58,7 +58,7 @@ const gameManager = (() => {
     // Check draw
     // else: Check win
     if (checkWin(currentPlayer.getSymbol())) {
-      console.log("winner");
+      console.log(`${currentPlayer.getName()} is the winner!`);
     }
     // else: Swap turn
     swapTurn();
