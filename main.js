@@ -21,9 +21,9 @@ const gameDOM = (() => {
 })();
 
 const gameManager = (() => {
-  let playerTwoTurn = false;
+  let turnFlag = false;
 
-  const swapTurn = () => (playerTwoTurn = !playerTwoTurn);
+  const swapTurn = () => (turnFlag = !turnFlag);
 
   const startGame = (players) => {
     boardCells.forEach((cell) =>
@@ -32,7 +32,7 @@ const gameManager = (() => {
       })
     );
 
-    gameDOM.displayTurn(players[+playerTwoTurn]);
+    gameDOM.displayTurn(players[+turnFlag]);
   };
 
   const finishGame = () => {
@@ -64,23 +64,22 @@ const gameManager = (() => {
   };
 
   const clickHandler = (currentCell, players) => {
-    const currentPlayer = players[+playerTwoTurn];
+    const currentPlayer = players[+turnFlag];
 
-    // Insert symbol
     currentPlayer.insert(currentCell.dataset.cellindex);
-    // Check draw
-    if (checkDraw()) {
-      gameDOM.displayWinner("Draw!");
-    }
-    // else: Check win
-    else if (checkWin(currentPlayer.getSymbol())) {
+
+    if (checkWin(currentPlayer.getSymbol())) {
       finishGame();
 
       gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
+    } else if (checkDraw()) {
+      finishGame();
+
+      gameDOM.displayWinner("Draw!");
+    } else {
+      swapTurn();
+      gameDOM.displayTurn(players[+turnFlag]);
     }
-    // else: Swap turn
-    swapTurn();
-    gameDOM.displayTurn(currentPlayer);
   };
 
   return { startGame };
