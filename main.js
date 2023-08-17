@@ -1,10 +1,10 @@
-const gameStateText = document.querySelector(".game-state");
-const roundsText = document.querySelector(".rounds");
-
 let gameBoard;
 let boardCells;
 
 const gameDOM = (() => {
+  const gameStateText = document.querySelector(".game-state");
+  const roundsText = document.querySelector(".rounds");
+
   const displayTurn = (currentPlayer) => {
     gameStateText.textContent = `${currentPlayer.getName()}'s turn!`;
   };
