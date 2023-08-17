@@ -27,7 +27,7 @@ const gameDOM = (() => {
 })();
 
 const gameManager = (() => {
-  let twoPlayersFlag;
+  let vsComputerFlag;
   let turnFlag = false;
   let rounds = 0;
   const players = [];
@@ -54,15 +54,14 @@ const gameManager = (() => {
 
   const declarePlayers = () => {
     // Provisional dialogs
-    //twoPlayersFlag = confirm("Ok = Vs. Player\nCancel = Vs. Computer");
-    twoPlayersFlag = true;
+    vsComputerFlag = confirm("Ok = Vs. Computer\nCancel = Vs. Player");
 
     players.push(playerFactory("X", "Player One"));
 
     players.push(
-      twoPlayersFlag
-        ? playerFactory("O", "Player Two")
-        : playerFactory("O", "Computer")
+      vsComputerFlag
+        ? computerFactory(0, "O")
+        : playerFactory("O", "Player Two")
     );
   };
 
@@ -154,6 +153,27 @@ const playerFactory = (symbolString, playerName = "Player") => {
   const getSymbol = () => symbol;
 
   return { insert, getName, getSymbol };
+};
+
+const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
+  const prototype = playerFactory(symbolString, playerName);
+  const computerDifficulty = difficulty;
+
+  const randomInsert = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+
+  const optimalInsert = () => {
+    if (difficulty == 0) {
+      const random = randomInsert(1, 9);
+
+      prototype.insert(random);
+    }
+  };
+
+  return Object.assign({}, prototype, { optimalInsert });
 };
 
 gameManager.startGame();
