@@ -1,6 +1,8 @@
-const gameBoard = ["", "", "", "", "", "", "", "", ""];
-const boardCells = document.querySelectorAll(".board-cell");
 const gameStateText = document.querySelector(".game-state");
+const roundsText = document.querySelector(".rounds");
+
+let gameBoard;
+let boardCells;
 
 const gameDOM = (() => {
   const displayTurn = (currentPlayer) => {
@@ -17,43 +19,78 @@ const gameDOM = (() => {
     });
   };
 
-  return { displayTurn, displayWinner, renderBoard };
+  const updateRoundText = (currentRound) => {
+    roundsText.textContent = currentRound;
+  };
+
+  return { displayTurn, displayWinner, renderBoard, updateRoundText };
 })();
 
 const gameManager = (() => {
   let twoPlayersFlag;
   let turnFlag = false;
+  let rounds = 0;
+  const players = [];
 
   const swapTurn = () => (turnFlag = !turnFlag);
 
-  const declarePlayers = () => {
-    const players = [];
+  const createBoard = () => {
+    const boardContainer = document.querySelector(".game-board");
 
-    // Provisional dialogs
-    twoPlayersFlag = confirm("Ok = Vs. Player\nCancel = Vs. Computer");
+    boardContainer.innerHTML = "";
 
-    players[0] = playerFactory("X", "Player One");
+    for (let i = 0; i < 9; i++) {
+      boardContainer.innerHTML += `<div class="board-cell" data-cellIndex="${i}"></div>`;
+    }
 
-    players[1] = twoPlayersFlag
-      ? playerFactory("O", "Player Two")
-      : playerFactory("O", "Computer");
+    boardCells = boardContainer.querySelectorAll(".board-cell");
 
-    return players;
-  };
-
-  const startGame = (players) => {
     boardCells.forEach((cell) =>
       cell.addEventListener("click", (e) => clickHandler(e.target, players), {
         once: true,
       })
     );
+  };
 
+  const declarePlayers = () => {
+    // Provisional dialogs
+    //twoPlayersFlag = confirm("Ok = Vs. Player\nCancel = Vs. Computer");
+    twoPlayersFlag = true;
+
+    players.push(playerFactory("X", "Player One"));
+
+    players.push(
+      twoPlayersFlag
+        ? playerFactory("O", "Player Two")
+        : playerFactory("O", "Computer")
+    );
+  };
+
+  const startNewRound = () => {
+    rounds++;
+
+    gameBoard = ["", "", "", "", "", "", "", "", ""];
+
+    createBoard();
+
+    alert(`Round ${rounds}`);
+
+    gameDOM.updateRoundText(rounds);
     gameDOM.displayTurn(players[+turnFlag]);
   };
 
-  const finishGame = () => {
+  const startGame = () => {
+    declarePlayers();
+    startNewRound();
+  };
+
+  const finishRound = () => {
     // Remove all events
     boardCells.forEach((cell) => cell.replaceWith(cell.cloneNode(true)));
+
+    if (rounds <= 5) {
+      startNewRound();
+    }
   };
 
   const checkDraw = () => {
@@ -85,11 +122,11 @@ const gameManager = (() => {
     currentPlayer.insert(currentCell.dataset.cellindex);
 
     if (checkWin(currentPlayer.getSymbol())) {
-      finishGame();
+      finishRound();
 
       gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
     } else if (checkDraw()) {
-      finishGame();
+      finishRound();
 
       gameDOM.displayWinner("Draw!");
     } else {
@@ -119,4 +156,4 @@ const playerFactory = (symbolString, playerName = "Player") => {
   return { insert, getName, getSymbol };
 };
 
-gameManager.startGame(gameManager.declarePlayers());
+gameManager.startGame();
