@@ -88,8 +88,8 @@ const gameManager = (() => {
     // Remove all events
     boardCells.forEach((cell) => cell.replaceWith(cell.cloneNode(true)));
 
-    if (rounds <= 5) {
-      startNewRound();
+    if (rounds < 5) {
+      setTimeout(startNewRound, 250);
     }
   };
 
