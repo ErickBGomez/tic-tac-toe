@@ -46,9 +46,13 @@ const gameManager = (() => {
     boardCells = boardContainer.querySelectorAll(".board-cell");
 
     boardCells.forEach((cell) =>
-      cell.addEventListener("click", (e) => clickHandler(e.target, players), {
-        once: true,
-      })
+      cell.addEventListener(
+        "click",
+        (e) => clickHandler(e.target.dataset.cellindex),
+        {
+          once: true,
+        }
+      )
     );
   };
 
@@ -115,10 +119,17 @@ const gameManager = (() => {
     );
   };
 
-  const clickHandler = (currentCell, players) => {
+  // Agregar una forma de insertar el computer cuando sea su turno
+  const clickHandler = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
 
-    currentPlayer.insert(currentCell.dataset.cellindex);
+    if (!vsComputerFlag || +turnFlag === 0) {
+      currentPlayer.insert(currentCellIndex);
+    } else {
+      players[1].optimalInsert();
+    }
+
+    console.log(currentPlayer.getSymbol());
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
@@ -130,8 +141,13 @@ const gameManager = (() => {
       gameDOM.displayWinner("Draw!");
     } else {
       swapTurn();
+
       gameDOM.displayTurn(players[+turnFlag]);
+
+      if (vsComputerFlag && +turnFlag === 1) clickHandler();
     }
+
+    gameDOM.renderBoard();
   };
 
   return { declarePlayers, startGame };
@@ -143,9 +159,9 @@ const playerFactory = (symbolString, playerName = "Player") => {
   const symbol = symbolString;
 
   const insert = (cellIndex) => {
-    gameBoard[cellIndex] = symbol;
-
-    gameDOM.renderBoard();
+    if (gameBoard[cellIndex] === "") {
+      gameBoard[cellIndex] = symbol;
+    }
   };
 
   const getName = () => name;
@@ -159,7 +175,7 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
   const prototype = playerFactory(symbolString, playerName);
   const computerDifficulty = difficulty;
 
-  const randomInsert = (min, max) => {
+  const randomInt = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -167,7 +183,11 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
 
   const optimalInsert = () => {
     if (difficulty == 0) {
-      const random = randomInsert(1, 9);
+      let random = 0;
+
+      do {
+        random = randomInt(0, 8);
+      } while (gameBoard[random] !== "");
 
       prototype.insert(random);
     }
