@@ -96,11 +96,9 @@ const gameManager = (() => {
     }
   };
 
-  const checkDraw = () => {
-    return Array.from(boardCells).every((cell) => cell.textContent !== "");
-  };
-
   const checkWin = (currentPlayerSymbol) => {
+    console.log("Check win: " + currentPlayerSymbol);
+
     const winningConditions = [
       [0, 1, 2],
       [3, 4, 5],
@@ -119,6 +117,12 @@ const gameManager = (() => {
     );
   };
 
+  const checkDraw = () => {
+    console.log("Else: Check draw");
+
+    return Array.from(boardCells).every((cell) => cell.textContent !== "");
+  };
+
   // Agregar una forma de insertar el computer cuando sea su turno
   const clickHandler = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
@@ -128,8 +132,6 @@ const gameManager = (() => {
     } else {
       players[1].optimalInsert();
     }
-
-    console.log(currentPlayer.getSymbol());
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
@@ -143,6 +145,8 @@ const gameManager = (() => {
       swapTurn();
 
       gameDOM.displayTurn(players[+turnFlag]);
+
+      console.log("Else: Swap turn to: " + players[+turnFlag].getName());
 
       if (vsComputerFlag && +turnFlag === 1) clickHandler();
     }
