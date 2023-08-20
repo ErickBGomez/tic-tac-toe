@@ -52,7 +52,7 @@ const gameManager = (() => {
 
     // Set Click Events
     boardCells
-      .filter((cell) => cell.textContent === "")
+      .filter((cell) => !isNaN(Number(cell.textContent)))
       .forEach((emptyCells) =>
         emptyCells.addEventListener("click", (e) =>
           clickEvent(e.target.dataset.cellindex)
@@ -159,7 +159,7 @@ const gameManager = (() => {
   };
 
   const getEmptyCells = () => {
-    return gameBoard.filter((emptyCell) => emptyCell === "");
+    return gameBoard.filter((emptyCell) => typeof emptyCell === "number");
   };
 
   return { startGame, checkWin, getEmptyCells };
@@ -171,7 +171,7 @@ const playerFactory = (symbolString, playerName = "Player") => {
   const symbol = symbolString;
 
   const insert = (cellIndex) => {
-    if (gameBoard[cellIndex] === "") {
+    if (typeof gameBoard[cellIndex] === "number") {
       gameBoard[cellIndex] = symbol;
     }
   };
@@ -240,8 +240,6 @@ const minimax = (newBoard, playerSymbol) => {
     // Possible fix: Change empty cells to numbers
     move.index = newBoard[availableCells[i]];
     newBoard[availableCells[i]] = playerSymbol;
-
-    console.log(moves);
 
     if (playerSymbol == players[1].getSymbol()) {
       result = minimax(newBoard, players[0].getSymbol());
