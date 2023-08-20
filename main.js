@@ -1,6 +1,8 @@
 let gameBoard;
 let boardCells;
 
+const players = [];
+
 const gameDOM = (() => {
   const gameStateText = document.querySelector(".game-state");
   const roundsText = document.querySelector(".rounds");
@@ -28,7 +30,6 @@ const gameManager = (() => {
   let vsComputerFlag;
   let turnFlag;
   let rounds = 0;
-  const players = [];
 
   const swapTurn = () => (turnFlag = !turnFlag);
 
@@ -159,7 +160,7 @@ const gameManager = (() => {
     return gameBoard.filter((emptyCell) => emptyCell === "");
   };
 
-  return { startGame, getEmptyCells };
+  return { startGame, checkWin, getEmptyCells };
 })();
 
 const playerFactory = (symbolString, playerName = "Player") => {
@@ -204,7 +205,17 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
     prototype.insert(minimax(gameBoard, prototype.getSymbol()).index);
   };
 
-  const minimax = (newBoard, playerSymbol) => {};
+  const minimax = (newBoard, playerSymbol) => {
+    const availableCells = gameManager.getEmptyCells();
+
+    if (gameManager.checkWin(players[0].getSymbol())) {
+      return { score: -10 };
+    } else if (gameManager.checkWin(players[1].getSymbol())) {
+      return { score: 10 };
+    } else if (availableCells.length === 0) {
+      return { score: 0 };
+    }
+  };
 
   const optimalInsert = () => {
     if (!difficulty) {
