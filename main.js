@@ -207,10 +207,6 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
 
   const minimax = (newBoard, playerSymbol) => {
     const availableCells = gameManager.getEmptyCells();
-    const moves = [];
-    let result;
-    let bestMove;
-    let bestScore;
 
     if (gameManager.checkWin(players[0].getSymbol())) {
       return { score: -10 };
@@ -220,8 +216,11 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
       return { score: 0 };
     }
 
+    const moves = [];
+
     for (let i = 0; i < availableCells.length; i++) {
       const move = {};
+      let result;
 
       // Possible fix: Change empty cells to numbers
       move.index = newBoard[availableCells[i]];
@@ -232,12 +231,16 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
         move.score = result.score;
       } else {
         result = minimax(newBoard, players[1].getSymbol());
+        move.score = result.score;
       }
 
       newBoard[availableCells[i]] = move.index;
 
       moves.push(move);
     }
+
+    let bestMove;
+    let bestScore;
 
     if (playerSymbol === players[1].getSymbol()) {
       bestScore = -Infinity;
