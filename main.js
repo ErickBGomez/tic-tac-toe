@@ -155,7 +155,11 @@ const gameManager = (() => {
     }
   };
 
-  return { declarePlayers, startGame };
+  const getEmptyCells = () => {
+    return gameBoard.filter((emptyCell) => emptyCell === "");
+  };
+
+  return { startGame, getEmptyCells };
 })();
 
 const playerFactory = (symbolString, playerName = "Player") => {
