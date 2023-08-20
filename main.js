@@ -62,12 +62,15 @@ const gameManager = (() => {
   const declarePlayers = () => {
     // Provisional dialogs
     vsComputerFlag = confirm("Ok = Vs. Computer\nCancel = Vs. Player");
+    const difficulty = +prompt(
+      "Set computer Difficulty:\n[0] = Easy\n[1] = Hard"
+    );
 
     players.push(playerFactory("X", "Player One"));
 
     players.push(
       vsComputerFlag
-        ? computerFactory(0, "O")
+        ? computerFactory(difficulty, "O")
         : playerFactory("O", "Player Two")
     );
   };
@@ -127,7 +130,7 @@ const gameManager = (() => {
   const clickEvent = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
 
-    if (!vsComputerFlag || +turnFlag === 0) {
+    if (!(vsComputerFlag && turnFlag)) {
       currentPlayer.insert(currentCellIndex);
     } else {
       players[1].optimalInsert();
@@ -148,7 +151,7 @@ const gameManager = (() => {
 
       gameDOM.displayTurn(players[+turnFlag]);
 
-      if (vsComputerFlag && +turnFlag === 1) clickEvent();
+      if (vsComputerFlag && turnFlag) clickEvent();
     }
   };
 
@@ -183,15 +186,23 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
+  const easyInsert = () => {
+    let random = 0;
+
+    do {
+      random = randomInt(0, 8);
+    } while (gameBoard[random] !== "");
+
+    prototype.insert(random);
+  };
+
+  const hardInsert = () => {};
+
   const optimalInsert = () => {
-    if (difficulty == 0) {
-      let random = 0;
-
-      do {
-        random = randomInt(0, 8);
-      } while (gameBoard[random] !== "");
-
-      prototype.insert(random);
+    if (!difficulty) {
+      easyInsert();
+    } else {
+      hardInsert();
     }
   };
 
