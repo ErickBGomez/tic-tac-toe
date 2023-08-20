@@ -13,17 +13,15 @@ const gameDOM = (() => {
     gameStateText.textContent = message;
   };
 
-  const renderBoard = () => {
-    gameBoard.forEach((cell, index) => {
-      boardCells[index].textContent = cell;
-    });
-  };
-
   const updateRoundText = (currentRound) => {
     roundsText.textContent = currentRound;
   };
 
-  return { displayTurn, displayWinner, renderBoard, updateRoundText };
+  return {
+    displayTurn,
+    displayWinner,
+    updateRoundText,
+  };
 })();
 
 const gameManager = (() => {
@@ -34,7 +32,8 @@ const gameManager = (() => {
 
   const swapTurn = () => (turnFlag = !turnFlag);
 
-  const createBoard = () => {
+  const setBoard = () => {
+    // Create DOM cells
     const boardContainer = document.querySelector(".game-board");
 
     boardContainer.innerHTML = "";
@@ -43,17 +42,21 @@ const gameManager = (() => {
       boardContainer.innerHTML += `<div class="board-cell" data-cellIndex="${i}"></div>`;
     }
 
-    boardCells = boardContainer.querySelectorAll(".board-cell");
+    boardCells = Array.from(boardContainer.querySelectorAll(".board-cell"));
 
-    boardCells.forEach((cell) =>
-      cell.addEventListener(
-        "click",
-        (e) => clickHandler(e.target.dataset.cellindex),
-        {
-          once: true,
-        }
-      )
-    );
+    // Set board symbols
+    gameBoard.forEach((symbol, index) => {
+      boardCells[index].textContent = symbol;
+    });
+
+    // Set Click Events
+    boardCells
+      .filter((cell) => cell.textContent === "")
+      .forEach((filteredCell) =>
+        filteredCell.addEventListener("click", (e) =>
+          clickEvent(e.target.dataset.cellindex)
+        )
+      );
   };
 
   const declarePlayers = () => {
@@ -75,7 +78,7 @@ const gameManager = (() => {
 
     gameBoard = ["", "", "", "", "", "", "", "", ""];
 
-    createBoard();
+    setBoard();
 
     alert(`Round ${rounds}`);
 
@@ -121,7 +124,7 @@ const gameManager = (() => {
   };
 
   // Agregar una forma de insertar el computer cuando sea su turno
-  const clickHandler = (currentCellIndex) => {
+  const clickEvent = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
 
     if (!vsComputerFlag || +turnFlag === 0) {
@@ -130,9 +133,7 @@ const gameManager = (() => {
       players[1].optimalInsert();
     }
 
-    console.log(currentPlayer.getSymbol());
-
-    gameDOM.renderBoard();
+    setBoard();
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
@@ -147,7 +148,7 @@ const gameManager = (() => {
 
       gameDOM.displayTurn(players[+turnFlag]);
 
-      if (vsComputerFlag && +turnFlag === 1) clickHandler();
+      if (vsComputerFlag && +turnFlag === 1) clickEvent();
     }
   };
 
