@@ -52,8 +52,8 @@ const gameManager = (() => {
     // Set Click Events
     boardCells
       .filter((cell) => cell.textContent === "")
-      .forEach((filteredCell) =>
-        filteredCell.addEventListener("click", (e) =>
+      .forEach((emptyCells) =>
+        emptyCells.addEventListener("click", (e) =>
           clickEvent(e.target.dataset.cellindex)
         )
       );
