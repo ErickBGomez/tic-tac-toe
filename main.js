@@ -200,7 +200,11 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
     prototype.insert(random);
   };
 
-  const hardInsert = () => {};
+  const hardInsert = () => {
+    prototype.insert(minimax(gameBoard, prototype.getSymbol()).index);
+  };
+
+  const minimax = (newBoard, playerSymbol) => {};
 
   const optimalInsert = () => {
     if (!difficulty) {
