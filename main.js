@@ -1,6 +1,8 @@
 let gameBoard;
 let boardCells;
 
+alert("a");
+
 const players = [];
 
 const gameDOM = (() => {
@@ -47,12 +49,13 @@ const gameManager = (() => {
 
     // Set board symbols
     gameBoard.forEach((symbol, index) => {
-      boardCells[index].textContent = symbol;
+      boardCells[index].textContent =
+        typeof gameBoard[index] !== "number" ? symbol : "";
     });
 
     // Set Click Events
     boardCells
-      .filter((cell) => !isNaN(Number(cell.textContent)))
+      .filter((cell) => cell.textContent === "")
       .forEach((emptyCells) =>
         emptyCells.addEventListener("click", (e) =>
           clickEvent(e.target.dataset.cellindex)
