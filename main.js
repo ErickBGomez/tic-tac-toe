@@ -1,7 +1,7 @@
+// Possible bug: Click event in loop
+
 let gameBoard;
 let boardCells;
-
-alert("a");
 
 const players = [];
 
@@ -110,7 +110,7 @@ const gameManager = (() => {
   };
 
   const checkDraw = () => {
-    return Array.from(boardCells).every((cell) => cell.textContent !== "");
+    return gameBoard.every((cell) => typeof cell === "string");
   };
 
   const checkWin = (currentPlayerSymbol) => {
@@ -126,9 +126,7 @@ const gameManager = (() => {
     ];
 
     return winningConditions.some((combination) =>
-      combination.every(
-        (index) => boardCells[index].innerText === currentPlayerSymbol
-      )
+      combination.every((index) => gameBoard[index] === currentPlayerSymbol)
     );
   };
 
@@ -207,7 +205,7 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
   };
 
   const hardInsert = () => {
-    prototype.insert(minimax(gameBoard, prototype.getSymbol()).index);
+    // prototype.insert(minimax(gameBoard, prototype.getSymbol()).index);
   };
 
   const optimalInsert = () => {
@@ -223,62 +221,62 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
 
 gameManager.startGame();
 
-const minimax = (newBoard, playerSymbol) => {
-  const availableCells = gameManager.getEmptyCells();
+// const minimax = (newBoard, playerSymbol) => {
+//   const availableCells = gameManager.getEmptyCells();
 
-  if (gameManager.checkWin(players[0].getSymbol())) {
-    return { score: -10 };
-  } else if (gameManager.checkWin(players[1].getSymbol())) {
-    return { score: 10 };
-  } else if (availableCells.length === 0) {
-    return { score: 0 };
-  }
+//   if (gameManager.checkWin(players[0].getSymbol())) {
+//     return { score: -10 };
+//   } else if (gameManager.checkWin(players[1].getSymbol())) {
+//     return { score: 10 };
+//   } else if (availableCells.length === 0) {
+//     return { score: 0 };
+//   }
 
-  const moves = [];
+//   const moves = [];
 
-  for (let i = 0; i < availableCells.length; i++) {
-    const move = {};
-    let result;
+//   for (let i = 0; i < availableCells.length; i++) {
+//     const move = {};
+//     let result;
 
-    // Possible fix: Change empty cells to numbers
-    move.index = newBoard[availableCells[i]];
-    newBoard[availableCells[i]] = playerSymbol;
+//     // Possible fix: Change empty cells to numbers
+//     move.index = newBoard[availableCells[i]];
+//     newBoard[availableCells[i]] = playerSymbol;
 
-    if (playerSymbol == players[1].getSymbol()) {
-      result = minimax(newBoard, players[0].getSymbol());
-      move.score = result.score;
-    } else {
-      result = minimax(newBoard, players[1].getSymbol());
-      move.score = result.score;
-    }
+//     if (playerSymbol == players[1].getSymbol()) {
+//       result = minimax(newBoard, players[0].getSymbol());
+//       move.score = result.score;
+//     } else {
+//       result = minimax(newBoard, players[1].getSymbol());
+//       move.score = result.score;
+//     }
 
-    newBoard[availableCells[i]] = move.index;
+//     newBoard[availableCells[i]] = move.index;
 
-    moves.push(move);
-  }
+//     moves.push(move);
+//   }
 
-  let bestMove;
-  let bestScore;
+//   let bestMove;
+//   let bestScore;
 
-  if (playerSymbol === players[1].getSymbol()) {
-    bestScore = -Infinity;
+//   if (playerSymbol === players[1].getSymbol()) {
+//     bestScore = -Infinity;
 
-    for (let i = 0; i < moves.length; i++) {
-      if (moves[i].score > bestScore) {
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  } else {
-    bestScore = Infinity;
+//     for (let i = 0; i < moves.length; i++) {
+//       if (moves[i].score > bestScore) {
+//         bestScore = moves[i].score;
+//         bestMove = i;
+//       }
+//     }
+//   } else {
+//     bestScore = Infinity;
 
-    for (let i = 0; i < moves.length; i++) {
-      if (moves[i].score < bestScore) {
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  }
+//     for (let i = 0; i < moves.length; i++) {
+//       if (moves[i].score < bestScore) {
+//         bestScore = moves[i].score;
+//         bestMove = i;
+//       }
+//     }
+//   }
 
-  return moves[bestMove];
-};
+//   return moves[bestMove];
+// };
