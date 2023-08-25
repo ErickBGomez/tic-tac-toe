@@ -50,7 +50,9 @@ const gameManager = (() => {
       boardCells[index].textContent =
         typeof gameBoard[index] !== "number" ? symbol : "";
     });
+  };
 
+  const setBoardEvents = () => {
     // Set Click Events
     boardCells
       .filter((cell) => cell.textContent === "")
@@ -86,7 +88,7 @@ const gameManager = (() => {
     gameBoard = Array.from(Array(9).keys());
 
     setBoard();
-
+    setBoardEvents();
     //alert(`Round ${rounds}`);
 
     gameDOM.updateRoundText(rounds);
@@ -138,6 +140,7 @@ const gameManager = (() => {
     }
 
     setBoard();
+    if (turnFlag) setBoardEvents();
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
