@@ -70,7 +70,7 @@ const gameManager = (() => {
     // const difficulty = +prompt(
     //   "Set computer Difficulty:\n[0] = Easy\n[1] = Hard"
     // );
-    difficulty = 0;
+    difficulty = 1;
 
     players.push(playerFactory("X", "Player One"));
 
@@ -194,6 +194,66 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
+  const minimax = (newBoard, playerSymbol) => {
+    const availableCells = gameManager.getEmptyCells();
+
+    if (gameManager.checkWin(players[0].getSymbol())) {
+      return { score: -10 };
+    } else if (gameManager.checkWin(players[1].getSymbol())) {
+      return { score: 10 };
+    } else if (availableCells.length === 0) {
+      return { score: 0 };
+    }
+
+    const moves = [];
+
+    for (let i = 0; i < availableCells.length; i++) {
+      const move = {};
+      let result;
+
+      // Possible fix: Change empty cells to numbers
+      move.index = newBoard[availableCells[i]];
+      newBoard[availableCells[i]] = playerSymbol;
+
+      if (playerSymbol == players[1].getSymbol()) {
+        result = minimax(newBoard, players[0].getSymbol());
+        move.score = result.score;
+      } else {
+        result = minimax(newBoard, players[1].getSymbol());
+        move.score = result.score;
+      }
+
+      newBoard[availableCells[i]] = move.index;
+
+      moves.push(move);
+    }
+
+    let bestMove;
+    let bestScore;
+
+    if (playerSymbol === players[1].getSymbol()) {
+      bestScore = -Infinity;
+
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score > bestScore) {
+          bestScore = moves[i].score;
+          bestMove = i;
+        }
+      }
+    } else {
+      bestScore = Infinity;
+
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score < bestScore) {
+          bestScore = moves[i].score;
+          bestMove = i;
+        }
+      }
+    }
+
+    return moves[bestMove];
+  };
+
   const easyInsert = () => {
     let random = 0;
 
@@ -205,7 +265,7 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
   };
 
   const hardInsert = () => {
-    // prototype.insert(minimax(gameBoard, prototype.getSymbol()).index);
+    prototype.insert(minimax(gameBoard, prototype.getSymbol()).index);
   };
 
   const optimalInsert = () => {
@@ -220,63 +280,3 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
 };
 
 gameManager.startGame();
-
-const minimax = (newBoard, playerSymbol) => {
-  const availableCells = gameManager.getEmptyCells();
-
-  if (gameManager.checkWin(players[0].getSymbol())) {
-    return { score: -10 };
-  } else if (gameManager.checkWin(players[1].getSymbol())) {
-    return { score: 10 };
-  } else if (availableCells.length === 0) {
-    return { score: 0 };
-  }
-
-  const moves = [];
-
-  for (let i = 0; i < availableCells.length; i++) {
-    const move = {};
-    let result;
-
-    // Possible fix: Change empty cells to numbers
-    move.index = newBoard[availableCells[i]];
-    newBoard[availableCells[i]] = playerSymbol;
-
-    if (playerSymbol == players[1].getSymbol()) {
-      result = minimax(newBoard, players[0].getSymbol());
-      move.score = result.score;
-    } else {
-      result = minimax(newBoard, players[1].getSymbol());
-      move.score = result.score;
-    }
-
-    newBoard[availableCells[i]] = move.index;
-
-    moves.push(move);
-  }
-
-  let bestMove;
-  let bestScore;
-
-  if (playerSymbol === players[1].getSymbol()) {
-    bestScore = -Infinity;
-
-    for (let i = 0; i < moves.length; i++) {
-      if (moves[i].score > bestScore) {
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  } else {
-    bestScore = Infinity;
-
-    for (let i = 0; i < moves.length; i++) {
-      if (moves[i].score < bestScore) {
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  }
-
-  return moves[bestMove];
-};
