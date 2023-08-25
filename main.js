@@ -1,5 +1,3 @@
-// Possible bug: Click event in loop
-
 let gameBoard;
 let boardCells;
 
@@ -58,7 +56,7 @@ const gameManager = (() => {
       .filter((cell) => cell.textContent === "")
       .forEach((emptyCells) =>
         emptyCells.addEventListener("click", (e) =>
-          clickEvent(e.target.dataset.cellindex)
+          insertEvent(e.target.dataset.cellindex)
         )
       );
   };
@@ -130,8 +128,7 @@ const gameManager = (() => {
     );
   };
 
-  // Agregar una forma de insertar el computer cuando sea su turno
-  const clickEvent = (currentCellIndex) => {
+  const insertEvent = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
 
     if (!(vsComputerFlag && turnFlag)) {
@@ -155,7 +152,7 @@ const gameManager = (() => {
 
       gameDOM.displayTurn(players[+turnFlag]);
 
-      if (vsComputerFlag && turnFlag) clickEvent();
+      if (vsComputerFlag && turnFlag) setTimeout(insertEvent, 1000);
     }
   };
 
