@@ -76,7 +76,7 @@ const gameManager = (() => {
 
     players.push(
       vsComputerFlag
-        ? computerFactory(difficulty, "O")
+        ? computerFactory("O", difficulty)
         : playerFactory("O", "Player Two")
     );
   };
@@ -168,7 +168,6 @@ const gameManager = (() => {
 
 const playerFactory = (symbolString, playerName = "Player") => {
   const name = playerName;
-
   const symbol = symbolString;
 
   const insert = (cellIndex) => {
@@ -184,9 +183,8 @@ const playerFactory = (symbolString, playerName = "Player") => {
   return { insert, getName, getSymbol };
 };
 
-const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
+const computerFactory = (symbolString, difficulty, playerName = "Computer") => {
   const prototype = playerFactory(symbolString, playerName);
-  const computerDifficulty = difficulty;
 
   const randomInt = (min, max) => {
     min = Math.ceil(min);
@@ -211,7 +209,6 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
       const move = {};
       let result;
 
-      // Possible fix: Change empty cells to numbers
       move.index = newBoard[availableCells[i]];
       newBoard[availableCells[i]] = playerSymbol;
 
