@@ -105,7 +105,7 @@ const gameManager = (() => {
     boardCells.forEach((cell) => cell.replaceWith(cell.cloneNode(true)));
 
     if (rounds < 5) {
-      setTimeout(startNewRound, 250);
+      setTimeout(startNewRound, 500);
     }
   };
 
@@ -199,7 +199,7 @@ const computerFactory = (difficulty, symbolString, playerName = "Computer") => {
 
     do {
       random = randomInt(0, 8);
-    } while (gameBoard[random] !== "");
+    } while (typeof gameBoard[random] === "string");
 
     prototype.insert(random);
   };
