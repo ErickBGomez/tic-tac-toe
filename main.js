@@ -276,4 +276,4 @@ const computerFactory = (symbolString, difficulty, playerName = "Computer") => {
   return Object.assign({}, prototype, { optimalInsert });
 };
 
-gameManager.startGame();
+// gameManager.startGame();
