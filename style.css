@@ -4,6 +4,8 @@
   --red-color: #f15e5e;
   --blue-color: #6194e0;
   --purple-color: #ac67e2;
+
+  font-size: 20px;
 }
 
 *,
@@ -13,13 +15,51 @@
 }
 
 body {
-  font-family: "Krona One", sans-serif;
+  height: 100vh;
   margin: 0;
+  font-family: "Krona One", sans-serif;
   background-color: var(--white-color);
   color: var(--black-color);
 }
 
-.game-container {
+/* Header */
+
+.header-title {
+  font-size: 2.5rem;
+  text-align: center;
+  padding: 25px 0;
+  margin-bottom: 75px;
+}
+
+/* Scenes (general) */
+
+.scenes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scenes > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+
+.scene-title {
+  font-size: 1rem;
+}
+
+/* Select symbol scene */
+
+.symbols-container {
+  display: flex;
+  gap: 5px;
+}
+
+/* Game scene */
+
+.game-scene {
   display: none;
 }
 

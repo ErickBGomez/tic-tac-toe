@@ -17,12 +17,23 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <div class="select-symbol-container"></div>
+    <header><div class="header-title">TIC TAC TOE</div></header>
 
-    <div class="game-container">
-      <div class="game-board"></div>
-      <div class="game-state"></div>
-      <div class="rounds-container">Round: <span class="rounds">0</span></div>
+    <div class="scenes">
+      <div class="select-symbol-scene">
+        <div class="container-scene">Select your symbol</div>
+        <div class="symbols-container">
+          <button class="select-x-symbol">X</button>
+          <div class="vertical-divisor"></div>
+          <button class="select-o-symbol">O</button>
+        </div>
+      </div>
+
+      <div class="game-scene">
+        <div class="game-board"></div>
+        <div class="game-state"></div>
+        <div class="rounds-container">Round: <span class="rounds">0</span></div>
+      </div>
     </div>
   </body>
 </html>
