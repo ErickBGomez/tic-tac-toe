@@ -54,9 +54,38 @@ body {
   font-size: 1rem;
 }
 
+.vertical-divisor {
+  position: relative;
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
+  background-color: var(--black-color);
+}
+
+.vertical-divisor::before,
+.vertical-divisor::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0.5px;
+  width: 3px;
+  height: 75px;
+  background-color: var(--black-color);
+  border-radius: 25px;
+}
+
+.vertical-divisor::before {
+  top: 25px;
+}
+
+.vertical-divisor::after {
+  bottom: 25px;
+}
+
 /* Select symbol scene */
 
-.symbols-container {
+.symbols-container,
+.opponents-container {
   margin-top: 125px;
   display: flex;
   align-items: center;
@@ -84,32 +113,49 @@ body {
   transition: stroke 200ms;
 }
 
-.vertical-divisor {
+/* Select opponent scene */
+
+.select-human-player,
+.select-computer {
+  cursor: pointer;
+}
+
+.select-human-player path,
+.select-computer path {
+  fill: var(--black-color);
+  transition: fill 200ms;
+}
+
+.select-human-player:hover path {
+  fill: var(--blue-color);
+  transition: fill 200ms;
+}
+
+.select-computer:hover path {
+  fill: var(--purple-color);
+  transition: fill 200ms;
+}
+
+.select-computer {
   position: relative;
-  width: 5px;
-  height: 5px;
-  border-radius: 100%;
-  background-color: var(--black-color);
 }
 
-.vertical-divisor::before,
-.vertical-divisor::after {
-  content: "";
-  display: block;
+.difficulty-container {
   position: absolute;
-  left: 0.5px;
-  width: 3px;
-  height: 75px;
+  display: none;
+  justify-content: space-between;
+  width: 200px;
+  top: 75px;
+}
+
+.select-computer:hover .difficulty-container {
+  display: flex;
+}
+
+.small-vertical-divisor {
+  width: 2px;
+  height: 27px;
   background-color: var(--black-color);
-  border-radius: 25px;
-}
-
-.vertical-divisor::before {
-  top: 25px;
-}
-
-.vertical-divisor::after {
-  bottom: 25px;
 }
 
 /* Game scene */
