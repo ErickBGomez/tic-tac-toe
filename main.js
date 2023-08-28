@@ -3,7 +3,32 @@ let boardCells;
 
 const players = [];
 
+const sceneManager = (() => {
+  let currentSceneIndex = 0;
+  const scenes = document.querySelectorAll(".scenes > div");
+
+  const showScene = (index) => {
+    scenes[index].style.display = "flex";
+  };
+
+  const closeScene = (index) => {
+    scenes[index].style.display = "none";
+  };
+
+  const openScene = (index) => {
+    closeScene(currentSceneIndex);
+
+    currentSceneIndex = index;
+    showScene(currentSceneIndex);
+  };
+})();
+
 const gameDOM = (() => {
+  // Here: Select symbols with DOM elements (and attach events just parent elements)
+  const selectSymbols = document.querySelectorAll(
+    ".symbols-container > div[data-value]"
+  );
+
   const gameStateText = document.querySelector(".game-state");
   const roundsText = document.querySelector(".rounds");
 
