@@ -20,7 +20,7 @@
     <header><div class="header-title">TIC TAC TOE</div></header>
 
     <div class="scenes">
-      <div class="select-symbol-scene" style="display: flex">
+      <div class="select-symbol-scene" style="display: none">
         <div class="scene-title">Select your symbol</div>
         <div class="symbols-container">
           <div class="select-x-symbol">
@@ -74,10 +74,45 @@
         </div>
       </div>
 
-      <div class="game-scene">
-        <div class="game-board"></div>
-        <div class="game-state"></div>
-        <div class="rounds-container">Round: <span class="rounds">0</span></div>
+      <div class="game-scene" style="">
+        <div class="rounds-container">ROUND <span class="rounds">0</span></div>
+        <div class="game-board">
+          <div class="board-cell"></div>
+          <div class="board-cell"></div>
+          <div class="board-cell"></div>
+          <div class="board-cell"></div>
+          <div class="board-cell"></div>
+          <div class="board-cell"></div>
+          <div class="board-cell"></div>
+          <div class="board-cell"></div>
+          <div class="board-cell"></div>
+        </div>
+        <div class="game-state">
+          <span class="x-marker">
+            <svg width="50" height="50" viewBox="0 0 64 64">
+              <path
+                style="stroke: #000000; stroke-width: 6; stroke-linecap: round"
+                d="M 60.542878,3.4558622 3.4558622,60.542878 M 3.4559319,3.4559338 60.544068,60.54407"
+              />
+            </svg>
+          </span>
+          <div class="horizontal-divisor"></div>
+          <span class="o-marker">
+            <svg width="50" height="50" viewBox="0 0 64 64">
+              <circle
+                style="
+                  fill: none;
+                  stroke: #000000;
+                  stroke-width: 6;
+                  stroke-linecap: round;
+                "
+                cx="32"
+                cy="32"
+                r="28.84507"
+              />
+            </svg>
+          </span>
+        </div>
       </div>
     </div>
   </body>

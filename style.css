@@ -5,7 +5,7 @@
   --blue-color: #6194e0;
   --purple-color: #ac67e2;
 
-  font-size: 20px;
+  font-size: 28px;
 }
 
 *,
@@ -27,7 +27,7 @@ body {
 /* Header */
 
 .header-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-align: center;
   padding: 25px 0;
   margin-bottom: 75px;
@@ -161,18 +161,46 @@ body {
 /* Game scene */
 
 .game-scene {
-  display: none;
+  display: flex;
+  height: 100%;
 }
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: repeat(3, 50px);
+  grid-template-columns: repeat(3, 125px);
+  grid-template-rows: repeat(3, 125px);
+  margin: 80px 0;
 }
 
-.game-board > .board-cell {
-  border: 1px solid black;
+.board-cell {
+  --board-border: 2px solid var(--black-color);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.board-cell:nth-child(2),
+.board-cell:nth-child(5),
+.board-cell:nth-child(8) {
+  border-left: var(--board-border);
+  border-right: var(--board-border);
+}
+
+.board-cell:nth-child(4),
+.board-cell:nth-child(5),
+.board-cell:nth-child(6) {
+  border-top: var(--board-border);
+  border-bottom: var(--board-border);
+}
+
+.horizontal-divisor {
+  width: 40px;
+  height: 2px;
+  background-color: var(--black-color);
+}
+
+.game-state {
+  display: flex;
+  align-items: center;
+  gap: 70px;
 }
