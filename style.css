@@ -24,25 +24,6 @@ body {
   color: var(--black-color);
 }
 
-button {
-  background-color: var(--white-color);
-  border: 2px solid var(--black-color);
-  color: var(--black-color);
-  cursor: pointer;
-  font-family: inherit;
-  padding: 0;
-  transition: color 200ms;
-}
-
-button.borderless {
-  border: none;
-}
-
-button:hover {
-  color: var(--select-color);
-  transition: color 200ms;
-}
-
 /* Header */
 
 .header-title {
@@ -67,26 +48,10 @@ button:hover {
   flex-direction: column;
   align-items: center;
   width: 100vw;
-
-  animation-name: show-scene;
-  animation-duration: 0.7s;
-  animation-fill-mode: forwards;
-  animation-timing-function: cubic-bezier(0, 1, 1, 1);
 }
 
 .scene-title {
   font-size: 1rem;
-}
-
-@keyframes show-scene {
-  from {
-    bottom: 100px;
-    opacity: 0;
-  }
-  to {
-    bottom: 0px;
-    opacity: 1;
-  }
 }
 
 /* Select symbol scene */
@@ -95,13 +60,34 @@ button:hover {
   margin-top: 125px;
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 100px;
+}
+
+.select-x-symbol,
+.select-o-symbol {
+  cursor: pointer;
+}
+
+.select-x-symbol path,
+.select-o-symbol circle {
+  stroke: var(--black-color);
+  transition: stroke 200ms;
+}
+
+.select-x-symbol:hover path {
+  stroke: var(--red-color);
+  transition: stroke 200ms;
+}
+
+.select-o-symbol:hover circle {
+  stroke: var(--blue-color);
+  transition: stroke 200ms;
 }
 
 .vertical-divisor {
   position: relative;
-  aspect-ratio: 1/1;
   width: 5px;
+  height: 5px;
   border-radius: 100%;
   background-color: var(--black-color);
 }
@@ -124,21 +110,6 @@ button:hover {
 
 .vertical-divisor::after {
   bottom: 25px;
-}
-
-button.select-x-symbol,
-button.select-o-symbol {
-  aspect-ratio: 1/1;
-  width: 200px;
-  font-size: 6rem;
-}
-
-button.select-x-symbol {
-  --select-color: var(--red-color);
-}
-
-button.select-o-symbol {
-  --select-color: var(--blue-color);
 }
 
 /* Game scene */
