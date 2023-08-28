@@ -20,17 +20,15 @@
     <header><div class="header-title">TIC TAC TOE</div></header>
 
     <div class="scenes">
-      <div class="select-symbol-scene" style="display: none">
+      <div class="select-symbol-scene" style="display: flex">
         <div class="scene-title">Select your symbol</div>
         <div class="symbols-container">
           <div class="select-x-symbol">
             <svg width="128" height="128" viewBox="0 0 64 64">
-              <g>
-                <path
-                  style="stroke-width: 6; stroke-linecap: round"
-                  d="M 60.542878,3.4558622 3.4558622,60.542878 M 3.4559319,3.4559338 60.544068,60.54407"
-                />
-              </g>
+              <path
+                style="stroke-width: 6; stroke-linecap: round"
+                d="M 60.542878,3.4558622 3.4558622,60.542878 M 3.4559319,3.4559338 60.544068,60.54407"
+              />
             </svg>
           </div>
 
@@ -38,20 +36,18 @@
 
           <div class="select-o-symbol">
             <svg width="128" height="128" viewBox="0 0 64 64">
-              <g>
-                <circle
-                  style="fill: none; stroke-width: 6; stroke-linecap: round"
-                  cx="32"
-                  cy="32"
-                  r="28.84507"
-                />
-              </g>
+              <circle
+                style="fill: none; stroke-width: 6; stroke-linecap: round"
+                cx="32"
+                cy="32"
+                r="28.84507"
+              />
             </svg>
           </div>
         </div>
       </div>
 
-      <div class="select-opponent-scene">
+      <div class="select-opponent-scene" style="display: none">
         <div class="scene-title">Select your opponent</div>
         <div class="opponents-container">
           <div class="select-human-player">
