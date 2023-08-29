@@ -1,8 +1,8 @@
 let gameBoard;
 let boardCells;
 
-const player = null;
-const opponent = null;
+let player = null;
+let opponent = null;
 const players = [];
 
 const sceneManager = (() => {
@@ -88,19 +88,22 @@ const gameManager = (() => {
   };
 
   const declarePlayers = (config) => {
-    vsComputerFlag = config.opponent === "CPU";
+    player = playerFactory(config.playerSymbol, "Player");
 
-    if (vsComputerFlag) {
-      if (config.symbol === "X") {
-        players.push(playerFactory("X", "Player"));
-        players.push(computerFactory("O", config.difficulty));
-      } else {
-        players.push(computerFactory("X", config.difficulty));
-        players.push(playerFactory("O", "Player"));
-      }
+    if (config.opponent === "CPU") {
+      vsComputerFlag = true;
+      opponent = computerFactory(config.opponentSymbol, config.difficulty);
     } else {
-      players.push(playerFactory("X", "Player One"));
-      players.push(playerFactory("O", "Player Two"));
+      vsComputerFlag = false;
+      opponent = playerFactory(config.opponentSymbol, "Player Two");
+    }
+
+    if (config.playerSymbol === "X") {
+      players.push(player);
+      players.push(opponent);
+    } else {
+      players.push(opponent);
+      players.push(player);
     }
   };
 
@@ -328,7 +331,8 @@ const gameSetUp = (() => {
   };
 
   const setSymbol = (symbol) => {
-    gameConfig.symbol = symbol;
+    gameConfig.playerSymbol = symbol;
+    gameConfig.opponentSymbol = symbol === "X" ? "O" : "X";
 
     sceneManager.openScene(2);
     gameManager.startGame(gameConfig);
