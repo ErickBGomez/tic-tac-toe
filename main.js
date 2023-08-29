@@ -115,10 +115,11 @@ const gameManager = (() => {
 
     setBoard();
     setBoardEvents();
-    //alert(`Round ${rounds}`);
 
     gameDOM.updateRoundText(rounds);
     gameDOM.displayTurn(players[+turnFlag]);
+
+    if (player.getSymbol() === "O") insertEvent();
   };
 
   const startGame = (config) => {
@@ -162,7 +163,7 @@ const gameManager = (() => {
     if (!(vsComputerFlag && turnFlag)) {
       currentPlayer.insert(currentCellIndex);
     } else {
-      players[1].optimalInsert();
+      opponent.optimalInsert();
     }
 
     setBoard();
