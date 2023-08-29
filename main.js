@@ -221,9 +221,9 @@ const computerFactory = (symbolString, difficulty, playerName = "Computer") => {
   const minimax = (newBoard, playerSymbol) => {
     const availableCells = gameManager.getEmptyCells();
 
-    if (gameManager.checkWin(players[0].getSymbol())) {
+    if (gameManager.checkWin(player.getSymbol())) {
       return { score: -10 };
-    } else if (gameManager.checkWin(players[1].getSymbol())) {
+    } else if (gameManager.checkWin(opponent.getSymbol())) {
       return { score: 10 };
     } else if (availableCells.length === 0) {
       return { score: 0 };
@@ -238,11 +238,11 @@ const computerFactory = (symbolString, difficulty, playerName = "Computer") => {
       move.index = newBoard[availableCells[i]];
       newBoard[availableCells[i]] = playerSymbol;
 
-      if (playerSymbol == players[1].getSymbol()) {
-        result = minimax(newBoard, players[0].getSymbol());
+      if (playerSymbol == opponent.getSymbol()) {
+        result = minimax(newBoard, player.getSymbol());
         move.score = result.score;
       } else {
-        result = minimax(newBoard, players[1].getSymbol());
+        result = minimax(newBoard, opponent.getSymbol());
         move.score = result.score;
       }
 
@@ -254,7 +254,7 @@ const computerFactory = (symbolString, difficulty, playerName = "Computer") => {
     let bestMove;
     let bestScore;
 
-    if (playerSymbol === players[1].getSymbol()) {
+    if (playerSymbol === opponent.getSymbol()) {
       bestScore = -Infinity;
 
       for (let i = 0; i < moves.length; i++) {
