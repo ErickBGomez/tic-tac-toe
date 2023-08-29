@@ -1,6 +1,8 @@
 let gameBoard;
 let boardCells;
 
+const player = null;
+const opponent = null;
 const players = [];
 
 const sceneManager = (() => {
@@ -21,14 +23,11 @@ const sceneManager = (() => {
     currentSceneIndex = index;
     showScene(currentSceneIndex);
   };
+
+  return { openScene };
 })();
 
 const gameDOM = (() => {
-  // Here: Select symbols with DOM elements (and attach events just parent elements)
-  const selectSymbols = document.querySelectorAll(
-    ".symbols-container > div[data-value]"
-  );
-
   const gameStateText = document.querySelector(".game-state");
   const roundsText = document.querySelector(".rounds");
 
@@ -88,22 +87,21 @@ const gameManager = (() => {
       );
   };
 
-  const declarePlayers = () => {
-    // Provisional dialogs
-    //vsComputerFlag = confirm("Ok = Vs. Computer\nCancel = Vs. Player");
-    vsComputerFlag = true;
-    // const difficulty = +prompt(
-    //   "Set computer Difficulty:\n[0] = Easy\n[1] = Hard"
-    // );
-    difficulty = 1;
+  const declarePlayers = (config) => {
+    vsComputerFlag = config.opponent === "CPU";
 
-    players.push(playerFactory("X", "Player One"));
-
-    players.push(
-      vsComputerFlag
-        ? computerFactory("O", difficulty)
-        : playerFactory("O", "Player Two")
-    );
+    if (vsComputerFlag) {
+      if (config.symbol === "X") {
+        players.push(playerFactory("X", "Player"));
+        players.push(computerFactory("O", config.difficulty));
+      } else {
+        players.push(computerFactory("X", config.difficulty));
+        players.push(playerFactory("O", "Player"));
+      }
+    } else {
+      players.push(playerFactory("X", "Player One"));
+      players.push(playerFactory("O", "Player Two"));
+    }
   };
 
   const startNewRound = () => {
@@ -120,8 +118,8 @@ const gameManager = (() => {
     gameDOM.displayTurn(players[+turnFlag]);
   };
 
-  const startGame = () => {
-    declarePlayers();
+  const startGame = (config) => {
+    declarePlayers(config);
     startNewRound();
   };
 
@@ -301,4 +299,53 @@ const computerFactory = (symbolString, difficulty, playerName = "Computer") => {
   return Object.assign({}, prototype, { optimalInsert });
 };
 
-// gameManager.startGame();
+const gameSetUp = (() => {
+  const gameConfig = {};
+
+  const selectOpponent = {
+    humanPlayer: document.querySelector(".select-human-player"),
+    computerPlayer: {
+      easy: document.querySelector(".difficulty-container .easy-difficulty"),
+      hard: document.querySelector(".difficulty-container .hard-difficulty"),
+    },
+  };
+  const selectComputer = document.querySelector(".select-computer");
+
+  const selectSymbol = {
+    x: document.querySelector(".select-x-symbol"),
+    o: document.querySelector(".select-o-symbol"),
+  };
+
+  selectComputer.addEventListener("click", () =>
+    selectComputer.classList.toggle("active")
+  );
+
+  const setOpponent = (opponent, difficulty = 0) => {
+    gameConfig.opponent = opponent;
+    gameConfig.difficulty = difficulty;
+
+    sceneManager.openScene(1);
+  };
+
+  const setSymbol = (symbol) => {
+    gameConfig.symbol = symbol;
+
+    sceneManager.openScene(2);
+    gameManager.startGame(gameConfig);
+  };
+
+  selectOpponent.humanPlayer.addEventListener("click", () =>
+    setOpponent("human")
+  );
+
+  selectOpponent.computerPlayer.easy.addEventListener("click", () =>
+    setOpponent("CPU", 0)
+  );
+
+  selectOpponent.computerPlayer.hard.addEventListener("click", () =>
+    setOpponent("CPU", 1)
+  );
+
+  selectSymbol.x.addEventListener("click", () => setSymbol("X"));
+  selectSymbol.o.addEventListener("click", () => setSymbol("O"));
+})();

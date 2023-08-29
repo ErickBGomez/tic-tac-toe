@@ -148,7 +148,7 @@ body {
   top: 75px;
 }
 
-.select-computer:hover .difficulty-container {
+.select-computer.active .difficulty-container {
   display: flex;
 }
 
