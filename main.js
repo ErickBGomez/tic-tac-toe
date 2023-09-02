@@ -98,6 +98,9 @@ const gameManager = (() => {
       opponent = playerFactory(config.opponentSymbol, "Player Two");
     }
 
+    console.log(player.getSymbol());
+    console.log(opponent.getSymbol());
+
     if (config.playerSymbol === "X") {
       players.push(player);
       players.push(opponent);
@@ -157,32 +160,52 @@ const gameManager = (() => {
     );
   };
 
+  // const insertEvent = (currentCellIndex) => {
+  //   const currentPlayer = players[+turnFlag];
+
+  //   if (!(vsComputerFlag && turnFlag)) {
+  //     currentPlayer.insert(currentCellIndex);
+  //   } else {
+  //     opponent.optimalInsert();
+  //   }
+
+  //   setBoard();
+  //   if (!vsComputerFlag || !turnFlag) setBoardEvents();
+
+  //   if (checkWin(currentPlayer.getSymbol())) {
+  //     finishRound();
+
+  //     gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
+  //   } else if (checkDraw()) {
+  //     finishRound();
+
+  //     gameDOM.displayWinner("Draw!");
+  //   } else {
+  //     swapTurn();
+
+  //     gameDOM.displayTurn(players[+turnFlag]);
+
+  //     if (vsComputerFlag && turnFlag) setTimeout(insertEvent, 1000);
+  //   }
+  // };
+
   const insertEvent = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
 
-    if (!(vsComputerFlag && turnFlag)) {
-      currentPlayer.insert(currentCellIndex);
-    } else {
-      opponent.optimalInsert();
-    }
+    currentPlayer.insert(currentCellIndex);
 
     setBoard();
-    if (turnFlag) setBoardEvents();
+    setBoardEvents();
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
-
       gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
     } else if (checkDraw()) {
       finishRound();
-
       gameDOM.displayWinner("Draw!");
     } else {
       swapTurn();
-
       gameDOM.displayTurn(players[+turnFlag]);
-
-      if (vsComputerFlag && turnFlag) setTimeout(insertEvent, 1000);
     }
   };
 
@@ -339,7 +362,7 @@ const gameSetUp = (() => {
 
   selectOpponent.humanPlayer.addEventListener("click", () => {
     setOpponent("human");
-    setSymbol("X");
+    setSymbol("X", "O");
     sceneManager.openScene(2);
   });
 
