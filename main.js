@@ -53,11 +53,16 @@ const gameDOM = (() => {
 const gameManager = (() => {
   let vsComputerFlag;
   let turnFlag;
+  let currentTurn;
   let rounds = 0;
+  const computerTimeout = 1000;
 
-  const swapTurn = () => (turnFlag = !turnFlag);
+  const swapTurn = () => {
+    turnFlag = !turnFlag;
+    currentTurn = !turnFlag ? "X" : "O";
+  };
 
-  const setBoard = () => {
+  const resetBoard = () => {
     // Create DOM cells
     const boardContainer = document.querySelector(".game-board");
 
@@ -76,14 +81,18 @@ const gameManager = (() => {
     });
   };
 
-  const setBoardEvents = () => {
+  const resetBoardEvents = () => {
     // Set Click Events
     boardCells
       .filter((cell) => cell.textContent === "")
       .forEach((emptyCells) =>
-        emptyCells.addEventListener("click", (e) =>
-          insertEvent(e.target.dataset.cellindex)
-        )
+        emptyCells.addEventListener("click", (e) => {
+          const callbackEvent = vsComputerFlag
+            ? playerComputerInsertEvent
+            : twoPlayersInsertEvent;
+
+          callbackEvent(e.target.dataset.cellindex);
+        })
       );
   };
 
@@ -98,9 +107,6 @@ const gameManager = (() => {
       opponent = playerFactory(config.opponentSymbol, "Player Two");
     }
 
-    console.log(player.getSymbol());
-    console.log(opponent.getSymbol());
-
     if (config.playerSymbol === "X") {
       players.push(player);
       players.push(opponent);
@@ -112,17 +118,21 @@ const gameManager = (() => {
 
   const startNewRound = () => {
     turnFlag = false;
+    currentTurn = "X";
     rounds++;
 
     gameBoard = Array.from(Array(9).keys());
 
-    setBoard();
-    setBoardEvents();
+    resetBoard();
 
     gameDOM.updateRoundText(rounds);
     gameDOM.displayTurn(players[+turnFlag]);
 
-    if (player.getSymbol() === "O") insertEvent();
+    if (player.getSymbol() === "X") {
+      resetBoardEvents();
+    } else {
+      setTimeout(playerComputerInsertEvent, computerTimeout);
+    }
   };
 
   const startGame = (config) => {
@@ -189,13 +199,13 @@ const gameManager = (() => {
   //   }
   // };
 
-  const insertEvent = (currentCellIndex) => {
+  const twoPlayersInsertEvent = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
 
     currentPlayer.insert(currentCellIndex);
 
-    setBoard();
-    setBoardEvents();
+    resetBoard();
+    resetBoardEvents();
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
@@ -206,6 +216,36 @@ const gameManager = (() => {
     } else {
       swapTurn();
       gameDOM.displayTurn(players[+turnFlag]);
+    }
+  };
+
+  const playerComputerInsertEvent = (currentCellIndex) => {
+    const currentPlayer = players[+turnFlag];
+
+    console.log(currentTurn);
+    console.log(currentPlayer.getName());
+
+    if (currentTurn === player.getSymbol()) {
+      player.insert(currentCellIndex);
+    } else {
+      opponent.optimalInsert();
+    }
+
+    resetBoard();
+    resetBoardEvents();
+
+    if (checkWin(currentPlayer.getSymbol())) {
+      finishRound();
+      gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
+    } else if (checkDraw()) {
+      finishRound();
+      gameDOM.displayWinner("Draw!");
+    } else {
+      swapTurn();
+      gameDOM.displayTurn(players[+turnFlag]);
+
+      if (currentTurn === opponent.getSymbol())
+        setTimeout(playerComputerInsertEvent, computerTimeout);
     }
   };
 
