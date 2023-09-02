@@ -43,7 +43,11 @@ body {
   align-items: center;
 }
 
-.scenes > * {
+.scenes > div {
+  display: none;
+}
+
+.scenes > .open {
   position: relative;
   display: flex;
   flex-direction: column;

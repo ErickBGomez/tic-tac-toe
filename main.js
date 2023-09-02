@@ -11,15 +11,15 @@ const sceneManager = (() => {
   const scenes = document.querySelectorAll(".scenes > div");
 
   const showScene = (index) => {
-    scenes[index].style.display = "flex";
+    scenes[index].classList.add("open");
   };
 
-  const closeScene = (index) => {
-    scenes[index].style.display = "none";
+  const closeScenes = () => {
+    scenes.forEach((scene) => scene.classList.remove("open"));
   };
 
   const openScene = (index) => {
-    closeScene(currentSceneIndex);
+    closeScenes();
 
     currentSceneIndex = index;
     showScene(currentSceneIndex);
@@ -73,6 +73,7 @@ const gameManager = (() => {
   let rounds = 0;
   const computerTimeout = 1000;
   const turnTimeout = 300;
+  const newRoundTimeout = 500;
 
   const swapTurn = () => {
     turnFlag = !turnFlag;
@@ -83,15 +84,14 @@ const gameManager = (() => {
     // Create DOM cells
     boardContainer.innerHTML = "";
 
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 9; i++)
       boardContainer.innerHTML += `<div class="board-cell" data-index="${i}"></div>`;
-    }
 
     boardCells = Array.from(boardContainer.querySelectorAll(".board-cell"));
 
     // Set board symbols
     gameBoard.forEach((cell, index) => {
-      if (cell == "X") {
+      if (cell === "X") {
         boardCells[
           index
         ].innerHTML = `<svg width="50" height="50" viewBox="0 0 64 64" class="x-symbol">
@@ -100,7 +100,7 @@ const gameManager = (() => {
           d="M 5,5 59,59 M 59,5 5,59"
         />
       </svg>`;
-      } else if (cell == "O") {
+      } else if (cell === "O") {
         boardCells[
           index
         ].innerHTML = `<svg width="50" height="50" viewBox="0 0 64 64" class="o-symbol">
@@ -184,7 +184,7 @@ const gameManager = (() => {
     boardCells.forEach((cell) => cell.replaceWith(cell.cloneNode(true)));
 
     if (rounds < 5) {
-      setTimeout(startNewRound, 500);
+      setTimeout(startNewRound, newRoundTimeout);
     }
   };
 
@@ -450,4 +450,4 @@ const gameSetUp = (() => {
   selectSymbol.o.addEventListener("click", () => setSymbol("O", "X"));
 })();
 
-// sceneManager.openScene(2);
+sceneManager.openScene(0);
