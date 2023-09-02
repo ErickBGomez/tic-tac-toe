@@ -1,6 +1,6 @@
 :root {
   --black-color: #323232;
-  --gray-color: #616161;
+  --gray-color: #bebebe;
   --white-color: #f8f8f8;
   --red-color: #f15e5e;
   --blue-color: #6194e0;
@@ -206,6 +206,18 @@ body {
   gap: 70px;
 }
 
+.turn-symbols {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.turn-symbols .turn-label {
+  font-size: 0.8rem;
+  color: var(--gray-color);
+}
+
 .turn-symbols path,
 .turn-symbols circle {
   stroke: var(--gray-color);
@@ -215,6 +227,14 @@ body {
   stroke: var(--red-color);
 }
 
+.turn-symbols.x-symbol.active .turn-label {
+  color: var(--red-color);
+}
+
 .turn-symbols.o-symbol.active circle {
   stroke: var(--blue-color);
+}
+
+.turn-symbols.o-symbol.active .turn-label {
+  color: var(--blue-color);
 }

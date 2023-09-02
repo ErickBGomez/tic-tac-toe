@@ -29,7 +29,13 @@ const sceneManager = (() => {
 
 const gameDOM = (() => {
   const turnSymbols = document.querySelectorAll(".turn-symbols");
+  const turnLabels = document.querySelectorAll(".turn-label");
   const roundsText = document.querySelector(".rounds");
+
+  const setTurnLabels = (playersArray) => {
+    turnLabels[0].textContent = playersArray[0].getName();
+    turnLabels[1].textContent = playersArray[1].getName();
+  };
 
   const displayTurn = (currentSymbol) => {
     console.log(turnSymbols[0].classList);
@@ -51,6 +57,7 @@ const gameDOM = (() => {
   };
 
   return {
+    setTurnLabels,
     displayTurn,
     displayWinner,
     updateRoundText,
@@ -104,15 +111,19 @@ const gameManager = (() => {
   };
 
   const declarePlayers = (config) => {
-    player = playerFactory(config.playerSymbol, "Player");
+    let playerName;
 
     if (config.opponent === "CPU") {
       computerFlag = true;
       opponent = computerFactory(config.opponentSymbol, config.difficulty);
+      playerName = "P";
     } else {
       computerFlag = false;
-      opponent = playerFactory(config.opponentSymbol, "Player Two");
+      opponent = playerFactory(config.opponentSymbol, "P2");
+      playerName = "P1";
     }
+
+    player = playerFactory(config.playerSymbol, playerName);
 
     if (config.playerSymbol === "X") {
       players.push(player);
@@ -144,6 +155,7 @@ const gameManager = (() => {
 
   const startGame = (config) => {
     declarePlayers(config);
+    gameDOM.setTurnLabels(players);
     startNewRound();
   };
 
@@ -250,7 +262,7 @@ const playerFactory = (symbolString, playerName = "Player") => {
   return { insert, getName, getSymbol };
 };
 
-const computerFactory = (symbolString, difficulty, playerName = "Computer") => {
+const computerFactory = (symbolString, difficulty, playerName = "CPU") => {
   const prototype = playerFactory(symbolString, playerName);
 
   const randomInt = (min, max) => {
