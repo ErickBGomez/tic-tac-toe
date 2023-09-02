@@ -170,35 +170,6 @@ const gameManager = (() => {
     );
   };
 
-  // const insertEvent = (currentCellIndex) => {
-  //   const currentPlayer = players[+turnFlag];
-
-  //   if (!(vsComputerFlag && turnFlag)) {
-  //     currentPlayer.insert(currentCellIndex);
-  //   } else {
-  //     opponent.optimalInsert();
-  //   }
-
-  //   setBoard();
-  //   if (!vsComputerFlag || !turnFlag) setBoardEvents();
-
-  //   if (checkWin(currentPlayer.getSymbol())) {
-  //     finishRound();
-
-  //     gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
-  //   } else if (checkDraw()) {
-  //     finishRound();
-
-  //     gameDOM.displayWinner("Draw!");
-  //   } else {
-  //     swapTurn();
-
-  //     gameDOM.displayTurn(players[+turnFlag]);
-
-  //     if (vsComputerFlag && turnFlag) setTimeout(insertEvent, 1000);
-  //   }
-  // };
-
   const twoPlayersInsertEvent = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
 
@@ -222,9 +193,6 @@ const gameManager = (() => {
   const playerComputerInsertEvent = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
 
-    console.log(currentTurn);
-    console.log(currentPlayer.getName());
-
     if (currentTurn === player.getSymbol()) {
       player.insert(currentCellIndex);
     } else {
@@ -232,7 +200,6 @@ const gameManager = (() => {
     }
 
     resetBoard();
-    resetBoardEvents();
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
@@ -244,8 +211,11 @@ const gameManager = (() => {
       swapTurn();
       gameDOM.displayTurn(players[+turnFlag]);
 
-      if (currentTurn === opponent.getSymbol())
+      if (currentTurn === opponent.getSymbol()) {
         setTimeout(playerComputerInsertEvent, computerTimeout);
+      } else {
+        resetBoardEvents();
+      }
     }
   };
 
