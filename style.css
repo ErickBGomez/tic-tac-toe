@@ -203,11 +203,13 @@ body {
   stroke: var(--gray-color);
 }
 
-.game-board[data-turn="X"] .x-symbol path {
+.game-board[data-turn="X"] .x-symbol path,
+.board-cell.round-won .x-symbol path {
   stroke: var(--red-color);
 }
 
-.game-board[data-turn="O"] .o-symbol circle {
+.game-board[data-turn="O"] .o-symbol circle,
+.board-cell.round-won .o-symbol circle {
   stroke: var(--blue-color);
 }
 

@@ -6,6 +6,17 @@ let player = null;
 let opponent = null;
 const players = [];
 
+const winningConditions = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
 const sceneManager = (() => {
   let currentSceneIndex = 0;
   const scenes = document.querySelectorAll(".scenes > div");
@@ -38,14 +49,13 @@ const gameDOM = (() => {
     turnLabels[1].textContent = playersArray[1].getName();
   };
 
-  const displayTurn = (currentSymbol) => {
+  const displayTurn = (currentSymbol = "") => {
     boardContainer.dataset.turn = currentSymbol;
+    turnSymbols.forEach((symbol) => symbol.classList.remove("active"));
 
     if (currentSymbol === "X") {
       turnSymbols[0].classList.add("active");
-      turnSymbols[1].classList.remove("active");
-    } else {
-      turnSymbols[0].classList.remove("active");
+    } else if (currentSymbol === "O") {
       turnSymbols[1].classList.add("active");
     }
   };
@@ -58,11 +68,33 @@ const gameDOM = (() => {
     roundsText.textContent = currentRound;
   };
 
+  const highlightWinSymbols = (playerSymbol) => {
+    let winIndex = null;
+    let plays = gameBoard.reduce(
+      (array, element, index) =>
+        element === playerSymbol ? array.concat(index) : array,
+      []
+    );
+
+    for (let [index, win] of winningConditions.entries()) {
+      if (win.every((element) => plays.indexOf(element) > -1)) {
+        winIndex = index;
+        break;
+      }
+    }
+
+    for (let index of winningConditions[winIndex]) {
+      boardCells[index].classList.add("round-won");
+      console.log(boardCells[index]);
+    }
+  };
+
   return {
     setTurnLabels,
     displayTurn,
     displayWinner,
     updateRoundText,
+    highlightWinSymbols,
   };
 })();
 
@@ -73,7 +105,7 @@ const gameManager = (() => {
   let rounds = 0;
   const computerTimeout = 1000;
   const turnTimeout = 300;
-  const newRoundTimeout = 500;
+  const newRoundTimeout = 1000;
 
   const swapTurn = () => {
     turnFlag = !turnFlag;
@@ -193,17 +225,6 @@ const gameManager = (() => {
   };
 
   const checkWin = (currentPlayerSymbol) => {
-    const winningConditions = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
     return winningConditions.some((combination) =>
       combination.every((index) => gameBoard[index] === currentPlayerSymbol)
     );
@@ -217,16 +238,13 @@ const gameManager = (() => {
     resetBoard();
 
     if (checkWin(currentPlayer.getSymbol())) {
-      finishRound();
       currentPlayer.incrementScore();
-      console.log(
-        `${players[0].getName()}: ${players[0].getScore()} - ${players[1].getName()}: ${players[1].getScore()}`
-      );
-    } else if (checkDraw()) {
+      gameDOM.displayTurn();
+      gameDOM.highlightWinSymbols(currentPlayer.getSymbol());
       finishRound();
-      console.log(
-        `${players[0].getName()}: ${players[0].getScore()} - ${players[1].getName()}: ${players[1].getScore()}`
-      );
+    } else if (checkDraw()) {
+      gameDOM.displayTurn();
+      finishRound();
     } else {
       setTimeout(() => {
         swapTurn();
@@ -248,16 +266,13 @@ const gameManager = (() => {
     resetBoard();
 
     if (checkWin(currentPlayer.getSymbol())) {
-      finishRound();
       currentPlayer.incrementScore();
-      console.log(
-        `${players[0].getName()}: ${players[0].getScore()} - ${players[1].getName()}: ${players[1].getScore()}`
-      );
-    } else if (checkDraw()) {
+      gameDOM.displayTurn();
+      gameDOM.highlightWinSymbols(currentPlayer.getSymbol());
       finishRound();
-      console.log(
-        `${players[0].getName()}: ${players[0].getScore()} - ${players[1].getName()}: ${players[1].getScore()}`
-      );
+    } else if (checkDraw()) {
+      gameDOM.displayTurn();
+      finishRound();
     } else {
       setTimeout(() => {
         swapTurn();
