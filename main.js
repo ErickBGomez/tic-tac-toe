@@ -51,7 +51,7 @@ const gameDOM = (() => {
 })();
 
 const gameManager = (() => {
-  let vsComputerFlag;
+  let computerFlag;
   let turnFlag;
   let currentTurn;
   let rounds = 0;
@@ -69,7 +69,7 @@ const gameManager = (() => {
     boardContainer.innerHTML = "";
 
     for (let i = 0; i < 9; i++) {
-      boardContainer.innerHTML += `<div class="board-cell" data-cellIndex="${i}"></div>`;
+      boardContainer.innerHTML += `<div class="board-cell" data-index="${i}"></div>`;
     }
 
     boardCells = Array.from(boardContainer.querySelectorAll(".board-cell"));
@@ -87,11 +87,11 @@ const gameManager = (() => {
       .filter((cell) => cell.textContent === "")
       .forEach((emptyCells) =>
         emptyCells.addEventListener("click", (e) => {
-          const callbackEvent = vsComputerFlag
+          const callbackEvent = computerFlag
             ? playerComputerInsertEvent
             : twoPlayersInsertEvent;
 
-          callbackEvent(e.target.dataset.cellindex);
+          callbackEvent(e.target.dataset.index);
         })
       );
   };
@@ -100,10 +100,10 @@ const gameManager = (() => {
     player = playerFactory(config.playerSymbol, "Player");
 
     if (config.opponent === "CPU") {
-      vsComputerFlag = true;
+      computerFlag = true;
       opponent = computerFactory(config.opponentSymbol, config.difficulty);
     } else {
-      vsComputerFlag = false;
+      computerFlag = false;
       opponent = playerFactory(config.opponentSymbol, "Player Two");
     }
 
