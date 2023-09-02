@@ -218,10 +218,15 @@ const gameManager = (() => {
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
-      // gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
+      currentPlayer.incrementScore();
+      console.log(
+        `${players[0].getName()}: ${players[0].getScore()} - ${players[1].getName()}: ${players[1].getScore()}`
+      );
     } else if (checkDraw()) {
       finishRound();
-      // gameDOM.displayWinner("Draw!");
+      console.log(
+        `${players[0].getName()}: ${players[0].getScore()} - ${players[1].getName()}: ${players[1].getScore()}`
+      );
     } else {
       setTimeout(() => {
         swapTurn();
@@ -244,10 +249,15 @@ const gameManager = (() => {
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
-      // gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
+      currentPlayer.incrementScore();
+      console.log(
+        `${players[0].getName()}: ${players[0].getScore()} - ${players[1].getName()}: ${players[1].getScore()}`
+      );
     } else if (checkDraw()) {
       finishRound();
-      // gameDOM.displayWinner("Draw!");
+      console.log(
+        `${players[0].getName()}: ${players[0].getScore()} - ${players[1].getName()}: ${players[1].getScore()}`
+      );
     } else {
       setTimeout(() => {
         swapTurn();
@@ -272,6 +282,7 @@ const gameManager = (() => {
 const playerFactory = (symbolString, playerName = "Player") => {
   const name = playerName;
   const symbol = symbolString;
+  let score = 0;
 
   const insert = (cellIndex) => {
     if (typeof gameBoard[cellIndex] === "number") {
@@ -283,7 +294,13 @@ const playerFactory = (symbolString, playerName = "Player") => {
 
   const getSymbol = () => symbol;
 
-  return { insert, getName, getSymbol };
+  const getScore = () => score;
+
+  const incrementScore = () => {
+    score++;
+  };
+
+  return { insert, getName, getSymbol, getScore, incrementScore };
 };
 
 const computerFactory = (symbolString, difficulty, playerName = "CPU") => {
