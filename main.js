@@ -1,5 +1,6 @@
 let gameBoard;
 let boardCells;
+const boardContainer = document.querySelector(".game-board");
 
 let player = null;
 let opponent = null;
@@ -38,6 +39,8 @@ const gameDOM = (() => {
   };
 
   const displayTurn = (currentSymbol) => {
+    boardContainer.dataset.turn = currentSymbol;
+
     if (currentSymbol === "X") {
       turnSymbols[0].classList.add("active");
       turnSymbols[1].classList.remove("active");
@@ -69,6 +72,7 @@ const gameManager = (() => {
   let currentTurn;
   let rounds = 0;
   const computerTimeout = 1000;
+  const turnTimeout = 300;
 
   const swapTurn = () => {
     turnFlag = !turnFlag;
@@ -77,8 +81,6 @@ const gameManager = (() => {
 
   const resetBoard = () => {
     // Create DOM cells
-    const boardContainer = document.querySelector(".game-board");
-
     boardContainer.innerHTML = "";
 
     for (let i = 0; i < 9; i++) {
@@ -213,7 +215,6 @@ const gameManager = (() => {
     currentPlayer.insert(currentCellIndex);
 
     resetBoard();
-    resetBoardEvents();
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
@@ -222,8 +223,11 @@ const gameManager = (() => {
       finishRound();
       // gameDOM.displayWinner("Draw!");
     } else {
-      swapTurn();
-      gameDOM.displayTurn(players[+turnFlag].getSymbol());
+      setTimeout(() => {
+        swapTurn();
+        gameDOM.displayTurn(players[+turnFlag].getSymbol());
+        resetBoardEvents();
+      }, turnTimeout);
     }
   };
 
@@ -245,14 +249,16 @@ const gameManager = (() => {
       finishRound();
       // gameDOM.displayWinner("Draw!");
     } else {
-      swapTurn();
-      gameDOM.displayTurn(players[+turnFlag].getSymbol());
+      setTimeout(() => {
+        swapTurn();
+        gameDOM.displayTurn(players[+turnFlag].getSymbol());
 
-      if (currentTurn === opponent.getSymbol()) {
-        setTimeout(playerComputerInsertEvent, computerTimeout);
-      } else {
-        resetBoardEvents();
-      }
+        if (currentTurn === opponent.getSymbol()) {
+          setTimeout(playerComputerInsertEvent, computerTimeout);
+        } else {
+          resetBoardEvents();
+        }
+      }, turnTimeout);
     }
   };
 

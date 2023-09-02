@@ -194,11 +194,16 @@ body {
   border-bottom: var(--board-border);
 }
 
-.board-cell .x-symbol path {
+.game-board .x-symbol path,
+.game-board .o-symbol circle {
+  stroke: var(--gray-color);
+}
+
+.game-board[data-turn="X"] .x-symbol path {
   stroke: var(--red-color);
 }
 
-.board-cell .o-symbol circle {
+.game-board[data-turn="O"] .o-symbol circle {
   stroke: var(--blue-color);
 }
 
