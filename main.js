@@ -38,7 +38,6 @@ const gameDOM = (() => {
   };
 
   const displayTurn = (currentSymbol) => {
-    console.log(turnSymbols[0].classList);
     if (currentSymbol === "X") {
       turnSymbols[0].classList.add("active");
       turnSymbols[1].classList.remove("active");
@@ -89,9 +88,28 @@ const gameManager = (() => {
     boardCells = Array.from(boardContainer.querySelectorAll(".board-cell"));
 
     // Set board symbols
-    gameBoard.forEach((symbol, index) => {
-      boardCells[index].textContent =
-        typeof gameBoard[index] !== "number" ? symbol : "";
+    gameBoard.forEach((cell, index) => {
+      if (cell == "X") {
+        boardCells[
+          index
+        ].innerHTML = `<svg width="50" height="50" viewBox="0 0 64 64" class="x-symbol">
+        <path
+          style="stroke-width: 9; stroke-linecap: round"
+          d="M 5,5 59,59 M 59,5 5,59"
+        />
+      </svg>`;
+      } else if (cell == "O") {
+        boardCells[
+          index
+        ].innerHTML = `<svg width="50" height="50" viewBox="0 0 64 64" class="o-symbol">
+        <circle
+          style="fill: none; stroke-width: 9; stroke-linecap: round"
+          cx="32"
+          cy="32"
+          r="27.5"
+        />
+      </svg>`;
+      }
     });
   };
 
