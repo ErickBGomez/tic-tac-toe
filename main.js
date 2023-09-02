@@ -327,30 +327,32 @@ const gameSetUp = (() => {
   const setOpponent = (opponent, difficulty = 0) => {
     gameConfig.opponent = opponent;
     gameConfig.difficulty = difficulty;
-
-    sceneManager.openScene(1);
   };
 
-  const setSymbol = (symbol) => {
-    gameConfig.playerSymbol = symbol;
-    gameConfig.opponentSymbol = symbol === "X" ? "O" : "X";
+  const setSymbol = (playerSymbol, opponentSymbol) => {
+    gameConfig.playerSymbol = playerSymbol;
+    gameConfig.opponentSymbol = opponentSymbol;
 
     sceneManager.openScene(2);
     gameManager.startGame(gameConfig);
   };
 
-  selectOpponent.humanPlayer.addEventListener("click", () =>
-    setOpponent("human")
-  );
+  selectOpponent.humanPlayer.addEventListener("click", () => {
+    setOpponent("human");
+    setSymbol("X");
+    sceneManager.openScene(2);
+  });
 
-  selectOpponent.computerPlayer.easy.addEventListener("click", () =>
-    setOpponent("CPU", 0)
-  );
+  selectOpponent.computerPlayer.easy.addEventListener("click", () => {
+    setOpponent("CPU", 0);
+    sceneManager.openScene(1);
+  });
 
-  selectOpponent.computerPlayer.hard.addEventListener("click", () =>
-    setOpponent("CPU", 1)
-  );
+  selectOpponent.computerPlayer.hard.addEventListener("click", () => {
+    setOpponent("CPU", 1);
+    sceneManager.openScene(1);
+  });
 
-  selectSymbol.x.addEventListener("click", () => setSymbol("X"));
-  selectSymbol.o.addEventListener("click", () => setSymbol("O"));
+  selectSymbol.x.addEventListener("click", () => setSymbol("X", "O"));
+  selectSymbol.o.addEventListener("click", () => setSymbol("O", "X"));
 })();
