@@ -28,15 +28,22 @@ const sceneManager = (() => {
 })();
 
 const gameDOM = (() => {
-  const gameStateText = document.querySelector(".game-state");
+  const turnSymbols = document.querySelectorAll(".turn-symbols");
   const roundsText = document.querySelector(".rounds");
 
-  const displayTurn = (currentPlayer) => {
-    gameStateText.textContent = `${currentPlayer.getName()}'s turn!`;
+  const displayTurn = (currentSymbol) => {
+    console.log(turnSymbols[0].classList);
+    if (currentSymbol === "X") {
+      turnSymbols[0].classList.add("active");
+      turnSymbols[1].classList.remove("active");
+    } else {
+      turnSymbols[0].classList.remove("active");
+      turnSymbols[1].classList.add("active");
+    }
   };
 
   const displayWinner = (message) => {
-    gameStateText.textContent = message;
+    // gameStateText.textContent = message;
   };
 
   const updateRoundText = (currentRound) => {
@@ -126,7 +133,7 @@ const gameManager = (() => {
     resetBoard();
 
     gameDOM.updateRoundText(rounds);
-    gameDOM.displayTurn(players[+turnFlag]);
+    gameDOM.displayTurn(currentTurn);
 
     if (player.getSymbol() === "X") {
       resetBoardEvents();
@@ -180,13 +187,13 @@ const gameManager = (() => {
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
-      gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
+      // gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
     } else if (checkDraw()) {
       finishRound();
-      gameDOM.displayWinner("Draw!");
+      // gameDOM.displayWinner("Draw!");
     } else {
       swapTurn();
-      gameDOM.displayTurn(players[+turnFlag]);
+      gameDOM.displayTurn(players[+turnFlag].getSymbol());
     }
   };
 
@@ -203,13 +210,13 @@ const gameManager = (() => {
 
     if (checkWin(currentPlayer.getSymbol())) {
       finishRound();
-      gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
+      // gameDOM.displayWinner(`${currentPlayer.getName()} is the winner!`);
     } else if (checkDraw()) {
       finishRound();
-      gameDOM.displayWinner("Draw!");
+      // gameDOM.displayWinner("Draw!");
     } else {
       swapTurn();
-      gameDOM.displayTurn(players[+turnFlag]);
+      gameDOM.displayTurn(players[+turnFlag].getSymbol());
 
       if (currentTurn === opponent.getSymbol()) {
         setTimeout(playerComputerInsertEvent, computerTimeout);
@@ -389,3 +396,5 @@ const gameSetUp = (() => {
   selectSymbol.x.addEventListener("click", () => setSymbol("X", "O"));
   selectSymbol.o.addEventListener("click", () => setSymbol("O", "X"));
 })();
+
+// sceneManager.openScene(2);

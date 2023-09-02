@@ -1,5 +1,6 @@
 :root {
   --black-color: #323232;
+  --gray-color: #616161;
   --white-color: #f8f8f8;
   --red-color: #f15e5e;
   --blue-color: #6194e0;
@@ -203,4 +204,17 @@ body {
   display: flex;
   align-items: center;
   gap: 70px;
+}
+
+.turn-symbols path,
+.turn-symbols circle {
+  stroke: var(--gray-color);
+}
+
+.turn-symbols.x-symbol.active path {
+  stroke: var(--red-color);
+}
+
+.turn-symbols.o-symbol.active circle {
+  stroke: var(--blue-color);
 }
