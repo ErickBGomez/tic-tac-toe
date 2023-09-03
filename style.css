@@ -358,3 +358,35 @@ a:visited {
 a:hover {
   color: var(--blue-color);
 }
+
+path {
+  animation-name: crossAnim;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+circle {
+  animation-name: circleAnim;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.7, 0, 0.5, 1);
+}
+
+@keyframes crossAnim {
+  0% {
+    stroke-dasharray: 0 80;
+  }
+
+  100% {
+    stroke-dasharray: 80;
+  }
+}
+
+@keyframes circleAnim {
+  0% {
+    stroke-dasharray: 0 200;
+  }
+
+  100% {
+    stroke-dasharray: 200;
+  }
+}
