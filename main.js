@@ -77,10 +77,6 @@ const gameDOM = (() => {
     }
   };
 
-  const displayWinner = (message) => {
-    // gameStateText.textContent = message;
-  };
-
   const updateRoundText = (currentRound) => {
     roundsText.textContent = currentRound;
   };
@@ -129,7 +125,6 @@ const gameDOM = (() => {
   return {
     setTurnLabels,
     displayTurn,
-    displayWinner,
     updateRoundText,
     highlightWinSymbols,
     setScoreLabel,
