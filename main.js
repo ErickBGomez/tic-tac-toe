@@ -58,6 +58,11 @@ const gameDOM = (() => {
   const roundsText = document.querySelector(".rounds");
   const scoreLabels = document.querySelectorAll(".score-label");
 
+  const setComputerColor = (computerSymbol) => {
+    boardContainer.dataset.computer = computerSymbol;
+    gameState.dataset.computer = computerSymbol;
+  };
+
   const setTurnLabels = (playersArray) => {
     turnLabels[0].textContent = playersArray[0].getName();
     turnLabels[1].textContent = playersArray[1].getName();
@@ -123,6 +128,7 @@ const gameDOM = (() => {
   };
 
   return {
+    setComputerColor,
     setTurnLabels,
     displayTurn,
     updateRoundText,
@@ -245,6 +251,7 @@ const gameManager = (() => {
     rounds = 0;
 
     declarePlayers(config);
+    gameDOM.setComputerColor(computerFlag ? opponent.getSymbol() : "");
     gameDOM.setTurnLabels(players);
     startNewRound();
   };

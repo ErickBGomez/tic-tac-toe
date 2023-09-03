@@ -256,6 +256,13 @@ header {
   stroke: var(--blue-color);
 }
 
+.game-board[data-computer="X"][data-turn="X"] .x-symbol path,
+.game-board[data-computer="X"] .board-cell.round-won .x-symbol path,
+.game-board[data-computer="O"][data-turn="O"] .o-symbol circle,
+.game-board[data-computer="O"] .board-cell.round-won .o-symbol circle {
+  stroke: var(--purple-color);
+}
+
 .horizontal-divisor {
   width: 40px;
   height: 2px;
@@ -314,6 +321,20 @@ header {
 .turn-symbols.o-symbol.winning .turn-label,
 .turn-symbols.o-symbol.winning .score-label {
   color: var(--blue-color);
+}
+
+.game-state[data-computer="X"] .turn-symbols.x-symbol.active path,
+.game-state[data-computer="O"] .turn-symbols.o-symbol.active circle {
+  stroke: var(--purple-color);
+}
+
+.game-state[data-computer="X"] .turn-symbols.x-symbol.active .turn-label,
+.game-state[data-computer="X"] .turn-symbols.x-symbol.winning .turn-label,
+.game-state[data-computer="X"] .turn-symbols.x-symbol.winning .score-label,
+.game-state[data-computer="O"] .turn-symbols.o-symbol.active .turn-label,
+.game-state[data-computer="O"] .turn-symbols.o-symbol.winning .turn-label,
+.game-state[data-computer="O"] .turn-symbols.o-symbol.winning .score-label {
+  color: var(--purple-color);
 }
 
 .game-state[data-score="false"] svg,
