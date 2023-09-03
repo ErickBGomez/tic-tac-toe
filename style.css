@@ -167,7 +167,8 @@ header {
   transition: fill 200ms;
 }
 
-.select-computer:hover path {
+.select-computer:hover path,
+.select-computer.active path {
   fill: var(--purple-color);
   transition: fill 200ms;
 }
@@ -180,8 +181,19 @@ header {
   position: absolute;
   display: none;
   justify-content: space-between;
-  width: 200px;
-  top: 75px;
+  width: 190px;
+  left: 5px;
+  top: 80px;
+  font-size: 0.8rem;
+  color: var(--gray-color);
+}
+
+.easy-difficulty:hover {
+  color: var(--blue-color);
+}
+
+.hard-difficulty:hover {
+  color: var(--red-color);
 }
 
 .select-computer.active .difficulty-container {
@@ -189,9 +201,9 @@ header {
 }
 
 .small-vertical-divisor {
-  width: 2px;
+  width: 3px;
   height: 27px;
-  background-color: var(--black-color);
+  background-color: var(--gray-color);
 }
 
 /* Game scene */
