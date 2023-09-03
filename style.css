@@ -27,11 +27,35 @@ body {
 
 /* Header */
 
+header {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  align-items: center;
+  margin-bottom: 75px;
+}
+
 .header-title {
   font-size: 2rem;
   text-align: center;
   padding: 25px 0;
-  margin-bottom: 75px;
+}
+
+.back-button {
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+}
+
+.back-button:hover {
+  background-color: var(--gray-color);
+}
+
+.back-button path {
+  stroke: var(--black-color);
 }
 
 /* Scenes (general) */
