@@ -19,8 +19,8 @@
 /* General elements styling */
 
 body {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: min-content 1fr 120px;
   height: 100vh;
   margin: 0;
   font-family: "Krona One", sans-serif;
@@ -34,7 +34,6 @@ header {
   display: grid;
   grid-template-columns: 1fr max-content 1fr;
   align-items: center;
-  margin-bottom: 75px;
   gap: 75px;
 }
 
@@ -71,7 +70,7 @@ header {
 /* Scenes (general) */
 
 .scenes {
-  flex: 1;
+  align-self: center;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -82,52 +81,29 @@ header {
   display: none;
 }
 
-.scenes > .open {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100vw;
-  height: 100%;
-}
-
 .scene-title {
   font-size: 1rem;
 }
 
-.vertical-divisor {
-  position: relative;
-  width: 5px;
-  height: 5px;
-  border-radius: 100%;
-  background-color: var(--black-color);
+.vertical-divisor path {
+  stroke: var(--black-color);
 }
 
-.vertical-divisor::before,
-.vertical-divisor::after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0.5px;
-  width: 3px;
-  height: 75px;
-  background-color: var(--black-color);
-  border-radius: 25px;
+.vertical-divisor circle {
+  fill: var(--black-color);
 }
 
-.vertical-divisor::before {
-  top: 25px;
-}
-
-.vertical-divisor::after {
-  bottom: 25px;
+.select-opponent-scene.open,
+.select-symbol-scene.open {
+  display: grid;
+  grid-template-rows: 100px max-content 100px;
+  justify-items: center;
 }
 
 /* Select symbol scene */
 
 .symbols-container,
 .opponents-container {
-  margin-top: 125px;
   display: flex;
   align-items: center;
   gap: 100px;
@@ -219,16 +195,22 @@ header {
 
 /* Game scene */
 
-.game-scene {
-  display: flex;
-  height: 100%;
+.game-scene.open {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-rows: 1fr max-content 1fr;
+  gap: 60px;
+}
+
+.rounds-container {
+  align-self: end;
 }
 
 .game-board {
   display: grid;
   grid-template-columns: repeat(3, 125px);
   grid-template-rows: repeat(3, 125px);
-  margin: 80px 0;
 }
 
 .board-cell {
@@ -360,6 +342,7 @@ header {
 }
 
 footer {
+  align-self: end;
   padding: 10px;
   text-align: center;
   font-size: 0.4rem;
