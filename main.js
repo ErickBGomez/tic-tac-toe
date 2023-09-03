@@ -40,9 +40,11 @@ const sceneManager = (() => {
 })();
 
 const gameDOM = (() => {
+  const gameState = document.querySelector(".game-state");
   const turnSymbols = document.querySelectorAll(".turn-symbols");
   const turnLabels = document.querySelectorAll(".turn-label");
   const roundsText = document.querySelector(".rounds");
+  const scoreLabels = document.querySelectorAll(".score-label");
 
   const setTurnLabels = (playersArray) => {
     turnLabels[0].textContent = playersArray[0].getName();
@@ -51,7 +53,10 @@ const gameDOM = (() => {
 
   const displayTurn = (currentSymbol = "") => {
     boardContainer.dataset.turn = currentSymbol;
-    turnSymbols.forEach((symbol) => symbol.classList.remove("active"));
+    turnSymbols.forEach((symbol) => {
+      symbol.classList.remove("active");
+      symbol.classList.remove("winning");
+    });
 
     if (currentSymbol === "X") {
       turnSymbols[0].classList.add("active");
@@ -85,8 +90,28 @@ const gameDOM = (() => {
 
     for (let index of winningConditions[winIndex]) {
       boardCells[index].classList.add("round-won");
-      console.log(boardCells[index]);
     }
+  };
+
+  const setScoreLabel = (players) => {
+    players.forEach(
+      (players, index) => (scoreLabels[index].textContent = players.getScore())
+    );
+
+    if (players[0].getScore() > players[1].getScore()) {
+      turnSymbols[0].classList.add("winning");
+      turnSymbols[1].classList.remove("winning");
+    } else if (players[0].getScore() < players[1].getScore()) {
+      turnSymbols[0].classList.remove("winning");
+      turnSymbols[1].classList.add("winning");
+    } else {
+      turnSymbols[0].classList.add("winning");
+      turnSymbols[1].classList.add("winning");
+    }
+  };
+
+  const toggleScoreLabel = (flag) => {
+    gameState.dataset.score = flag;
   };
 
   return {
@@ -95,6 +120,8 @@ const gameDOM = (() => {
     displayWinner,
     updateRoundText,
     highlightWinSymbols,
+    setScoreLabel,
+    toggleScoreLabel,
   };
 })();
 
@@ -197,6 +224,7 @@ const gameManager = (() => {
 
     gameDOM.updateRoundText(rounds);
     gameDOM.displayTurn(currentTurn);
+    gameDOM.toggleScoreLabel(false);
 
     if (player.getSymbol() === "X") {
       resetBoardEvents();
@@ -215,9 +243,10 @@ const gameManager = (() => {
     // Remove all events
     boardCells.forEach((cell) => cell.replaceWith(cell.cloneNode(true)));
 
-    if (rounds < 5) {
-      setTimeout(startNewRound, newRoundTimeout);
-    }
+    gameDOM.setScoreLabel(players);
+    gameDOM.toggleScoreLabel(true);
+
+    setTimeout(startNewRound, newRoundTimeout);
   };
 
   const checkDraw = () => {

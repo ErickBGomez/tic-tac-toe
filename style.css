@@ -233,7 +233,18 @@ body {
 }
 
 .turn-symbols .turn-label {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
+}
+
+.score-label {
+  font-size: 1.8rem;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+
+.turn-symbols .turn-label,
+.score-label {
   color: var(--gray-color);
 }
 
@@ -246,7 +257,9 @@ body {
   stroke: var(--red-color);
 }
 
-.turn-symbols.x-symbol.active .turn-label {
+.turn-symbols.x-symbol.active .turn-label,
+.turn-symbols.x-symbol.winning .turn-label,
+.turn-symbols.x-symbol.winning .score-label {
   color: var(--red-color);
 }
 
@@ -254,6 +267,18 @@ body {
   stroke: var(--blue-color);
 }
 
-.turn-symbols.o-symbol.active .turn-label {
+.turn-symbols.o-symbol.active .turn-label,
+.turn-symbols.o-symbol.winning .turn-label,
+.turn-symbols.o-symbol.winning .score-label {
   color: var(--blue-color);
+}
+
+.game-state[data-score="false"] svg,
+.game-state[data-score="true"] .score-label {
+  display: block;
+}
+
+.game-state[data-score="true"] svg,
+.game-state[data-score="false"] .score-label {
+  display: none;
 }
