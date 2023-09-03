@@ -4,7 +4,7 @@ const boardContainer = document.querySelector(".game-board");
 
 let player = null;
 let opponent = null;
-const players = [];
+let players = [];
 
 const winningConditions = [
   [0, 1, 2],
@@ -46,7 +46,7 @@ const sceneManager = (() => {
     displayBackButton();
   };
 
-  backButton.addEventListener("click", () => openScene(currentSceneIndex - 1));
+  backButton.addEventListener("click", () => openScene(0));
 
   return { openScene };
 })();
@@ -202,6 +202,7 @@ const gameManager = (() => {
   };
 
   const declarePlayers = (config) => {
+    players = [];
     let playerName;
 
     if (config.opponent === "CPU") {
@@ -246,6 +247,8 @@ const gameManager = (() => {
   };
 
   const startGame = (config) => {
+    rounds = 0;
+
     declarePlayers(config);
     gameDOM.setTurnLabels(players);
     startNewRound();
