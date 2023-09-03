@@ -1,6 +1,7 @@
 :root {
   --black-color: #323232;
   --gray-color: #bebebe;
+  --hover-color: #e0e0e0;
   --white-color: #f8f8f8;
   --red-color: #f15e5e;
   --blue-color: #6194e0;
@@ -32,6 +33,7 @@ header {
   grid-template-columns: 1fr max-content 1fr;
   align-items: center;
   margin-bottom: 75px;
+  gap: 75px;
 }
 
 .header-title {
@@ -41,21 +43,26 @@ header {
 }
 
 .back-button {
-  justify-self: center;
+  justify-self: end;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 45px;
   height: 45px;
   border-radius: 100%;
+  cursor: pointer;
 }
 
 .back-button:hover {
-  background-color: var(--gray-color);
+  background-color: var(--hover-color);
 }
 
 .back-button path {
   stroke: var(--black-color);
+}
+
+.back-button.hide {
+  visibility: hidden;
 }
 
 /* Scenes (general) */

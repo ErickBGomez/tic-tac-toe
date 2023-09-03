@@ -20,6 +20,15 @@ const winningConditions = [
 const sceneManager = (() => {
   let currentSceneIndex = 0;
   const scenes = document.querySelectorAll(".scenes > div");
+  const backButton = document.querySelector(".back-button");
+
+  const displayBackButton = () => {
+    if (currentSceneIndex > 0) {
+      backButton.classList.remove("hide");
+    } else {
+      backButton.classList.add("hide");
+    }
+  };
 
   const showScene = (index) => {
     scenes[index].classList.add("open");
@@ -34,7 +43,10 @@ const sceneManager = (() => {
 
     currentSceneIndex = index;
     showScene(currentSceneIndex);
+    displayBackButton();
   };
+
+  backButton.addEventListener("click", () => openScene(currentSceneIndex - 1));
 
   return { openScene };
 })();
