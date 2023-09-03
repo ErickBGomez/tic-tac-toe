@@ -19,6 +19,8 @@
 /* General elements styling */
 
 body {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   margin: 0;
   font-family: "Krona One", sans-serif;
@@ -68,6 +70,7 @@ header {
 /* Scenes (general) */
 
 .scenes {
+  flex: 1;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -84,6 +87,7 @@ header {
   flex-direction: column;
   align-items: center;
   width: 100vw;
+  height: 100%;
 }
 
 .scene-title {
@@ -345,4 +349,17 @@ header {
 .game-state[data-score="true"] svg,
 .game-state[data-score="false"] .score-label {
   display: none;
+}
+
+footer {
+  padding: 10px;
+  text-align: center;
+  font-size: 0.4rem;
+}
+
+a,
+a:visited {
+  font-size: 0.5rem;
+  color: var(--blue-color);
+  text-decoration: none;
 }
