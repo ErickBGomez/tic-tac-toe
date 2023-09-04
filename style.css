@@ -359,13 +359,15 @@ a:hover {
   color: var(--blue-color);
 }
 
-path {
+.turn-symbols.x-symbol path,
+.select-x-symbol path {
   animation-name: crossAnim;
   animation-duration: 0.7s;
   animation-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
 }
 
-circle {
+.turn-symbols.o-symbol circle,
+.select-o-symbol circle {
   animation-name: circleAnim;
   animation-duration: 0.7s;
   animation-timing-function: cubic-bezier(0.7, 0, 0.5, 1);
