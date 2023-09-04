@@ -153,7 +153,7 @@ const gameManager = (() => {
   let currentTurn;
   let rounds = 0;
   const computerTimeout = 1000;
-  const turnTimeout = 300;
+  const turnTimeout = 700;
   const newRoundTimeout = 1000;
 
   const swapTurn = () => {
@@ -312,15 +312,16 @@ const gameManager = (() => {
 
   const playerComputerInsertEvent = (currentCellIndex) => {
     const currentPlayer = players[+turnFlag];
+    let indexInserted;
 
     if (currentTurn === player.getSymbol()) {
-      player.insert(currentCellIndex);
+      indexInserted = player.insert(currentCellIndex);
     } else {
-      opponent.optimalInsert();
+      indexInserted = computerInserted = opponent.optimalInsert();
     }
 
     resetBoard();
-    gameDOM.animateInsertedSymbol(currentCellIndex);
+    gameDOM.animateInsertedSymbol(indexInserted);
 
     if (checkWin(currentPlayer.getSymbol())) {
       currentPlayer.incrementScore();
@@ -359,6 +360,7 @@ const playerFactory = (symbolString, playerName = "Player") => {
   const insert = (cellIndex) => {
     if (typeof gameBoard[cellIndex] === "number") {
       gameBoard[cellIndex] = symbol;
+      return cellIndex;
     }
   };
 
@@ -450,18 +452,18 @@ const computerFactory = (symbolString, difficulty, playerName = "CPU") => {
       random = randomInt(0, 8);
     } while (typeof gameBoard[random] === "string");
 
-    prototype.insert(random);
+    return prototype.insert(random);
   };
 
   const hardInsert = () => {
-    prototype.insert(minimax(gameBoard, prototype.getSymbol()).index);
+    return prototype.insert(minimax(gameBoard, prototype.getSymbol()).index);
   };
 
   const optimalInsert = () => {
     if (!difficulty) {
-      easyInsert();
+      return easyInsert();
     } else {
-      hardInsert();
+      return hardInsert();
     }
   };
 
