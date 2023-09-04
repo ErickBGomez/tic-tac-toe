@@ -7,6 +7,8 @@
   --blue-color: #6194e0;
   --purple-color: #ac67e2;
 
+  --turnColorTransition: 0.5s;
+
   font-size: 28px;
 }
 
@@ -237,16 +239,19 @@ header {
 .game-board .x-symbol path,
 .game-board .o-symbol circle {
   stroke: var(--gray-color);
+  transition: var(--turnColorTransition);
 }
 
 .game-board[data-turn="X"] .x-symbol path,
 .board-cell.round-won .x-symbol path {
   stroke: var(--red-color);
+  transition: var(--turnColorTransition);
 }
 
 .game-board[data-turn="O"] .o-symbol circle,
 .board-cell.round-won .o-symbol circle {
   stroke: var(--blue-color);
+  transition: var(--turnColorTransition);
 }
 
 .game-board[data-computer="X"][data-turn="X"] .x-symbol path,
@@ -254,6 +259,7 @@ header {
 .game-board[data-computer="O"][data-turn="O"] .o-symbol circle,
 .game-board[data-computer="O"] .board-cell.round-won .o-symbol circle {
   stroke: var(--purple-color);
+  transition: var(--turnColorTransition);
 }
 
 .horizontal-divisor {
