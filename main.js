@@ -154,7 +154,8 @@ const gameManager = (() => {
   let rounds = 0;
   const computerTimeout = 1000;
   const turnTimeout = 700;
-  const newRoundTimeout = 1000;
+  const newRoundTimeout = 2500;
+  const displayScoreDelay = 700;
 
   const swapTurn = () => {
     turnFlag = !turnFlag;
@@ -269,8 +270,8 @@ const gameManager = (() => {
     // Remove all events
     boardCells.forEach((cell) => cell.replaceWith(cell.cloneNode(true)));
 
-    gameDOM.setScoreLabel(players);
     gameDOM.toggleScoreLabel(true);
+    setTimeout(() => gameDOM.setScoreLabel(players), displayScoreDelay);
 
     setTimeout(startNewRound, newRoundTimeout);
   };
