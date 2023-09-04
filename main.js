@@ -106,6 +106,13 @@ const gameDOM = (() => {
     }
   };
 
+  const resetScoreLabel = () => {
+    scoreLabels.forEach((label) => {
+      label.textContent = 0;
+      label.classList.remove("winning");
+    });
+  };
+
   const setScoreLabel = (players) => {
     players.forEach(
       (players, index) => (scoreLabels[index].textContent = players.getScore())
@@ -141,6 +148,7 @@ const gameDOM = (() => {
     displayTurn,
     updateRoundText,
     highlightWinSymbols,
+    resetScoreLabel,
     setScoreLabel,
     toggleScoreLabel,
     animateInsertedSymbol,
@@ -262,6 +270,7 @@ const gameManager = (() => {
 
     declarePlayers(config);
     gameDOM.setComputerColor(computerFlag ? opponent.getSymbol() : "");
+    gameDOM.resetScoreLabel();
     gameDOM.setTurnLabels(players);
     startNewRound();
   };
