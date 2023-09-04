@@ -359,10 +359,12 @@ a:visited {
   color: var(--black-color);
   font-size: 0.5rem;
   text-decoration: none;
+  transition: color 0.15s;
 }
 
 a:hover {
   color: var(--blue-color);
+  transition: color 0.15s;
 }
 
 .turn-symbols.x-symbol path,
