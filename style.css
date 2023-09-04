@@ -360,14 +360,16 @@ a:hover {
 }
 
 .turn-symbols.x-symbol path,
-.select-x-symbol path {
+.select-x-symbol path,
+.board-cell.inserted .x-symbol path {
   animation-name: crossAnim;
   animation-duration: 0.7s;
   animation-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 .turn-symbols.o-symbol circle,
-.select-o-symbol circle {
+.select-o-symbol circle,
+.board-cell.inserted .o-symbol circle {
   animation-name: circleAnim;
   animation-duration: 0.7s;
   animation-timing-function: cubic-bezier(0.7, 0, 0.5, 1);

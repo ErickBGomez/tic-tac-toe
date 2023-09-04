@@ -127,6 +127,14 @@ const gameDOM = (() => {
     gameState.dataset.score = flag;
   };
 
+  const animateInsertedSymbol = (cellIndex) => {
+    const symbolDOM = document.querySelector(
+      `.board-cell[data-index="${cellIndex}"]`
+    );
+    console.log(symbolDOM);
+    symbolDOM.classList.add("inserted");
+  };
+
   return {
     setComputerColor,
     setTurnLabels,
@@ -135,6 +143,7 @@ const gameDOM = (() => {
     highlightWinSymbols,
     setScoreLabel,
     toggleScoreLabel,
+    animateInsertedSymbol,
   };
 })();
 
@@ -282,6 +291,7 @@ const gameManager = (() => {
     currentPlayer.insert(currentCellIndex);
 
     resetBoard();
+    gameDOM.animateInsertedSymbol(currentCellIndex);
 
     if (checkWin(currentPlayer.getSymbol())) {
       currentPlayer.incrementScore();
@@ -310,6 +320,7 @@ const gameManager = (() => {
     }
 
     resetBoard();
+    gameDOM.animateInsertedSymbol(currentCellIndex);
 
     if (checkWin(currentPlayer.getSymbol())) {
       currentPlayer.incrementScore();
